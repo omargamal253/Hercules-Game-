@@ -17,9 +17,10 @@ public class IntroScenes implements Screen{
     private float stateTimer;
     private int cnt;
     private boolean safe;
-    
+
     public IntroScenes(Main game) {
         this.game = game;
+
         safe = false;
         // LOADING ALL INTORS IMAGES
         loadImages();
@@ -36,31 +37,31 @@ public class IntroScenes implements Screen{
         sprite[1] = new Sprite(texture[1], 0, 0, 1432, 864);
         sprite[2] = new Sprite(texture[2], 0, 0, 1920, 1080);
         sprite[3] = new Sprite(texture[3], 0, 0, 728, 546);
-        
-        sprite[0].setSize(Main.WIDTH-620, Main.HEIGHT-50);
-        sprite[1].setSize(Main.WIDTH-620, Main.HEIGHT-50);
-        sprite[2].setSize(Main.WIDTH-620, Main.HEIGHT-50);
-        sprite[3].setSize(Main.WIDTH-620, Main.HEIGHT-50);
+
+        sprite[0].setSize(Main.WIDTH+550, Main.HEIGHT+300);
+        sprite[1].setSize(Main.WIDTH+550, Main.HEIGHT+300);
+        sprite[2].setSize(Main.WIDTH+550, Main.HEIGHT+300);
+        sprite[3].setSize(Main.WIDTH+550, Main.HEIGHT+300);
     }
-    
+
     @Override
     public void render(float dt) {
-       Gdx.gl.glClearColor(0, 0, 0, 1);
-       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       
-       /********** TIME CONTROLLER **************/
-       stateTimer += dt;
-       
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        /********** TIME CONTROLLER **************/
+        stateTimer += dt;
+
         if (stateTimer < 2f)   //FADE IN
             alpha += (1f / 60f) / 2;
-       else if (stateTimer > 4){ //FADE OUT
-           alpha -= (1f / 60f) /2;
-           if(stateTimer>5.47f){
-            stateTimer=0;
-            alpha=0;
-            cnt++;
-           }
-       }
+        else if (stateTimer > 4){ //FADE OUT
+            alpha -= (1f / 60f) /2;
+            if(stateTimer>5.47f){
+                stateTimer=0;
+                alpha=0;
+                cnt++;
+            }
+        }
         /*****************************************/
         if (cnt==4){     // INTROS FINISHED 
             game.setScreen(new StartMenu(game));
@@ -70,22 +71,22 @@ public class IntroScenes implements Screen{
         if (safe)cnt=7;
         if (cnt<4)
             sprite[cnt].setAlpha(alpha);
-       
-       game.batch.begin();
-       if (cnt<4)
-           sprite[cnt].draw(game.batch);
-       game.batch.end();
-      
+
+        game.batch.begin();
+        if (cnt<4)
+            sprite[cnt].draw(game.batch);
+        game.batch.end();
+
     }
 
     @Override
     public void resize(int width, int height) {
     }
-    
+
     @Override
-        public void show() {
+    public void show() {
     }
-        
+
     @Override
     public void pause() {
     }
@@ -105,6 +106,6 @@ public class IntroScenes implements Screen{
         texture[2].dispose();
         texture[3].dispose();
     }
-    
-    
+
+
 }

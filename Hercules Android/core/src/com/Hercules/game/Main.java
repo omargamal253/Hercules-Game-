@@ -69,9 +69,9 @@ public class Main extends Game {
             manager.finishLoading();
             
             // TOGGLE SCREENS
-            //setScreen(new IntroScenes(this));
-          //  setScreen(new StartMenu(this));
-           setScreen(new PlayScreen(this));
+            setScreen(new IntroScenes(this));
+            //setScreen(new StartMenu(this));
+            //setScreen(new PlayScreen(this));
             //setScreen(new PlayScreen2(this));
     }
     

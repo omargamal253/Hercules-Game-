@@ -391,7 +391,8 @@ public class GameInstruction implements Screen{
         table.add(Text[30]).expandX().padTop(140).padLeft(-440);
         table.row();
         //**********************************************************************
-        
+
+        /*
         //***************************Return to Menu*****************************
         Text[31]=new Label("Press Escape To Return To Main Menu", font2);
         Text[31].setScale(0.02f);
@@ -400,7 +401,7 @@ public class GameInstruction implements Screen{
         table.add(Text[31]).expandX().padTop(110).padLeft(50);
         table.row();
         //**********************************************************************
-        
+        */
         
         stage.addActor(table);
     }
@@ -412,13 +413,14 @@ public class GameInstruction implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         //handle camera positions
-         if (Gdx.input.isKeyPressed(Input.Keys.UP) &&gameCam.position.y<375){
+      /*   if (Gdx.input.to &&gameCam.position.y<375){
               gameCam.position.y+=5;}
          else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) &&gameCam.position.y>-1900){
                   gameCam.position.y-=5;}
-
+**/
+        gameCam.position.y-=2;
         //Handle to Exit
-         else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+          if (/*Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)*/gameCam.position.y<-1900){
              gameCam.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 , 0);
              game.setScreen(new StartMenu(game));
              this.dispose();

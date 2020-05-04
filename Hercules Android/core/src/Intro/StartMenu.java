@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -27,6 +28,7 @@ public class StartMenu implements Screen{
     public Stage stage;
     private Skin skin;
     private Texture background;
+    private Sprite  backgroundd;
     private Music music;
     
     public StartMenu(Main game) {
@@ -35,7 +37,10 @@ public class StartMenu implements Screen{
         music.play();
         this.game = game;
         background = new Texture(Gdx.files.internal("Intros\\0.jpg"));
-        
+        backgroundd=new Sprite(background);
+        backgroundd.setPosition(-100, 0);
+        backgroundd.setSize( game.WIDTH+550, game.HEIGHT+300);
+
         buttonOffset = 20;
         verticalPos = 40;
         stage = new Stage();
@@ -73,6 +78,7 @@ public class StartMenu implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y){
                 //game.setScreen(new Username(game, music));
+                music.stop();
                 game.setScreen(new PlayScreen(game));
                 returnClass().dispose();
             }
@@ -144,8 +150,9 @@ public class StartMenu implements Screen{
        Gdx.gl.glClearColor(0, 0, 0, 1);
        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
        game.batch.begin();
-            game.batch.draw(background, 0, 0, game.WIDTH-620, game.HEIGHT-50);
-       game.batch.end();
+        //    game.batch.draw(background, 0, 0, game.WIDTH+550, game.HEIGHT+300);
+        backgroundd.draw(game.batch);
+        game.batch.end();
        stage.act();
        stage.draw();
     }
