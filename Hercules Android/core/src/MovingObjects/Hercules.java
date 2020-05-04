@@ -23,8 +23,7 @@ public class Hercules extends Sprite {
     public static Body b2body;
     public boolean pickedlightsword = false, pickedfireballsword = false,pickedsonicsword=false;
 
-    //private float HerculesInitPosX = 750f;
-    private float HerculesInitPosX = 17000f;
+    private float HerculesInitPosX = 750f;
     private float HerculesInitPosY = 180f;
     public float HerculesMaxSpeed = 1.5f;
 //    public float HerculesMaxSpeedHigh = 0.18333331f;

@@ -43,7 +43,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /* LEVEL ONE SCREEN  */
-public class PlayScreen implements Screen , InputProcessor {
+public class PlayScreen implements Screen  {
 
     //  Some Essential Variables
     private Main game;
@@ -188,13 +188,7 @@ public class PlayScreen implements Screen , InputProcessor {
         Game.setLooping(true);
         Game.play();
        inputhandle = new InputHandle();
-      /*  Texture Right = new Texture("Sprites\\button_up.png");
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(Right));
-        RightButton =new ImageButton(drawable) ;
-        RightButton.setPosition(300, 300);
-        RightButton.setBounds(0,0, 100 , 100);
-        RightButton.setSize(200,200);
-   hud.stage.addActor(RightButton);*/
+
 
     }
     public TextureAtlas getFlameAtlas() {
@@ -239,27 +233,7 @@ public class PlayScreen implements Screen , InputProcessor {
      */
     private void handleInput(float dt) {
 
-        /*Gdx.input.setInputProcessor(hud.stage);
-        RightButton.addListener(new InputListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (player.b2body.getLinearVelocity().x <= player.HerculesMaxSpeed)
-                    player.b2body.applyForceToCenter(new Vector2(3, 0), true);
 
-                super.touchUp(event, x, y, pointer, button);
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                return true;
-            }
-
-            @Override
-            public boolean handle(Event event) {
-                return false;
-            }
-        });*/
         //control our player using immediate impulses
         if (inputhandle.Hup == true && player.b2body.getPosition().y <= player.HerculesMaxSpeedHigh) {
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
@@ -302,14 +276,7 @@ public class PlayScreen implements Screen , InputProcessor {
 
         handleJuice();
         v = c = false;
-        
-        
-               // if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-                   // System.out.println(Input.Keys.toString(Input.Keys.ANY_KEY));
-                 
-        
-    
-               // }
+
 
     }
 
@@ -557,7 +524,7 @@ public class PlayScreen implements Screen , InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        debuger.render(world,gameCam.combined);
+      //  debuger.render(world,gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
 
@@ -730,50 +697,6 @@ public class PlayScreen implements Screen , InputProcessor {
     }
     
      
-  
-    @Override
-    public boolean keyDown(int arg0) {
-         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public boolean keyUp(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean keyTyped(char arg0) {
-        System.out.println(arg0);
-                        System.out.println("oooooooooooooooooooooooooooooooooo");
-
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchDragged(int arg0, int arg1, int arg2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean mouseMoved(int arg0, int arg1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean scrolled(int arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
