@@ -433,6 +433,7 @@ public class Hercules extends Sprite {
             if (soundTimer > 8 && soundTimer != 0){
                 soundTimer=0;
                 if (!sound.isPlaying())
+                    sound.setVolume(Main.vol);
                     sound.play();
             }
         }

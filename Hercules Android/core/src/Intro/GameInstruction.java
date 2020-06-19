@@ -9,11 +9,23 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
+import javax.swing.text.View;
+
+import Screens.PlayScreen;
 
 
 //import com.sun.prism.paint.Color;
@@ -32,8 +44,10 @@ public class GameInstruction implements Screen{
     private Label.LabelStyle font1,font2;
     private BitmapFont FONT1,FONT2;
     private Label Text[];
-   
-    
+    private boolean ScreenisClicked;
+    private ImageButton backBtn;
+    private boolean backBtnIsClicked;
+
     public GameInstruction( Main game) {
         this.game = game;
         texture=new Texture[15];
@@ -50,7 +64,12 @@ public class GameInstruction implements Screen{
         font1 = new Label.LabelStyle(FONT1, null);
         FONT2= new BitmapFont(Gdx.files.internal("Fonts\\Menu.fnt"));
         font2 = new Label.LabelStyle(FONT2, null);
-        
+        ScreenisClicked=false;
+        backBtnIsClicked=false;
+
+        backBtn = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\left.png"))) ,
+                new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\leftClicked2.png")))); // Mawgoden le awl mara bs w mmkn mtkpch el stor dol w tst8dm el satr ly t7t law 3ayz t2ll code
+
         LoadingImages();
         LoadingText();
     }
@@ -89,7 +108,7 @@ public class GameInstruction implements Screen{
         sprite[2].setSize( game.WIDTH-620, game.HEIGHT-50);
         
         sprite[3]=new Sprite(texture[0]);
-          sprite[3].setPosition(0, -2520);
+        sprite[3].setPosition(0, -2520);
         sprite[3].setSize( game.WIDTH-620, 1039);
         
         //characters
@@ -402,11 +421,34 @@ public class GameInstruction implements Screen{
         table.row();
         //**********************************************************************
         */
-        
+
         stage.addActor(table);
     }
-    
-    
+
+    public void BackBtn(){
+        //  leftButton.setPosition(Gdx.graphics.getWidth()/1.5f , 170); // BUTTON POSITION
+        backBtn.setPosition( gameCam.position.x/150.0f , gameCam.position.y+230);
+
+        stage.addActor(backBtn); // kul button htzwdlo el satr da
+
+        Gdx.input.setInputProcessor(stage);
+        backBtn.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                backBtnIsClicked=true;
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+            }
+        });
+
+    }
+
+
+
+
+
     @Override
     public void render(float dt) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -418,9 +460,29 @@ public class GameInstruction implements Screen{
          else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) &&gameCam.position.y>-1900){
                   gameCam.position.y-=5;}
 **/
-        gameCam.position.y-=2;
+
+
+        Gdx.input.setInputProcessor(stage);
+        stage.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                ScreenisClicked=true;
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                ScreenisClicked=false;
+            }
+        });
+
+       BackBtn();
+
+        if(!ScreenisClicked){
+        gameCam.position.y -= 2;
+        }
+
+
         //Handle to Exit
-          if (/*Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)*/gameCam.position.y<-1900){
+          if (/*Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)*/gameCam.position.y<-1900 || backBtnIsClicked){
              gameCam.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 , 0);
              game.setScreen(new StartMenu(game));
              this.dispose();

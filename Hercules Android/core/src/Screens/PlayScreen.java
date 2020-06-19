@@ -77,8 +77,7 @@ public class PlayScreen implements Screen  {
     public WorldContactListener worldContactListener;
 
     //Sounds Variables
-    private Music Game, GameOver, Pillarmusic;
-    private Sound sound;
+    private Music Game, GameOver, Pillarmusic,sound;
 
     //Sprites
     private DrawClass staticGraphics;
@@ -181,11 +180,12 @@ public class PlayScreen implements Screen  {
         timer = new Timer(player, hud);
         sandal = new Sandal(new Texture("Sprites\\sandal.png"), 6000 / Main.PPM, 300 / Main.PPM, player);
 
-        Pillarmusic = game.manager.get("Audio//Hercules - sounds//Tall pillar Cracked.wav");
-        sound = game.manager.get("Audio//Hercules - Voices//Phil//Excellenty.wav", Sound.class);
+        Pillarmusic = game.manager.get("Audio//Hercules - sounds//Tall pillar Cracked.wav",Music.class);
+        sound = game.manager.get("Audio//Hercules - Voices//Phil//Excellenty.wav", Music.class);
         GameOver = game.manager.get("Audio//Hercules - sounds//Game Over.mp3", Music.class);
         Game = game.manager.get("Audio//Hercules - sounds//Nature Sound.wav", Music.class);
         Game.setLooping(true);
+        Game.setVolume(Main.vol);
         Game.play();
        inputhandle = new InputHandle();
 
@@ -224,8 +224,8 @@ public class PlayScreen implements Screen  {
     }
     public void  HerculesActionSound (String MusicPath){
          m = Main.manager.get(MusicPath,Music.class);
-                m.setVolume(1f); 
-                m.play();
+         m.setVolume(Main.vol);
+         m.play();
     }
 
     /**
@@ -347,12 +347,12 @@ public class PlayScreen implements Screen  {
          */
         if (piller.crashed == false) {
             if (piller.getBoundingRectangle().overlaps(player.getBoundingRectangle())) {
-                Pillarmusic.setVolume(0.5f);
+                Pillarmusic.setVolume(Main.vol);
                 Pillarmusic.setLooping(false);
                 Pillarmusic.play();
 
                 if (c == true || (v == true && normalcounter == 3)) {
-
+                    sound.setVolume(Main.vol);
                     sound.play();
 
                     piller.STATE = true;
@@ -478,6 +478,7 @@ public class PlayScreen implements Screen  {
 
     public boolean gameOver() {
         if (player.currentState == Hercules.State.die && player.getStateTimer() > 1.4) {
+            GameOver.setVolume(Main.vol);
             GameOver.play();
             return true;
         }

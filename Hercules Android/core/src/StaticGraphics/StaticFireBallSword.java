@@ -32,7 +32,8 @@ public class StaticFireBallSword extends Swords{
      @Override
     public void update() {
        if (herucle.b2body.getPosition().x > x-(960/Main.PPM) && soundcounter==0)
-        {        
+        {
+            music.setVolume(Main.vol);
              music.play();
              soundcounter++; 
         }

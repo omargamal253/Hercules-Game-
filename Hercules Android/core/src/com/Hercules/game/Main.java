@@ -1,6 +1,7 @@
 package com.Hercules.game;
 
 import Intro.GameInstruction;
+import Intro.SoundAndMusicSetting;
 import Intro.StartMenu;
 import Scenes.IntroScenes;
 import Screens.PlayScreen;
@@ -12,7 +13,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends Game {
-    
+
+    public static int x = 0, y = 0,TestMuteNum=0;
+    public static String MuteBtnName="Mute";
+    public static float vol = 0.5f;
+    public static int up =19, down =20, left =21, right =22, sword1 = 52, sword2 = 54, normalPunch =31, powerPunch = 50;
     public static final int WIDTH = 2000;   
     public static final int HEIGHT = 800;
     public static final float PPM = 800f;      
@@ -30,10 +35,10 @@ public class Main extends Game {
     
     @Override
     public void create() {
-             batch = new SpriteBatch();
+            batch = new SpriteBatch();
             manager = new AssetManager();
             manager.load("Audio//Hercules - sounds//Tall pillar Cracked.wav", Music.class);
-            manager.load("Audio//Hercules - Voices//Phil//Excellenty.wav", Sound.class);
+            manager.load("Audio//Hercules - Voices//Phil//Excellenty.wav", Music.class);
             manager.load("Audio//Hercules - sounds//Game Over.mp3", Music.class);
             manager.load("Audio//Hercules - Voices//Hercules//Herculad.wav" , Music.class);
             manager.load("Audio//Hercules - Voices//Hercules//HerculadToken.wav", Music.class);
@@ -45,15 +50,15 @@ public class Main extends Game {
             manager.load("Audio//Hercules - Voices//Hercules/Oh boy.wav",Music.class);
             manager.load("Audio//Hercules - sounds//Lightening Sword.wav",Music.class);
             manager.load("Audio//Hercules - sounds//Fireball Sword.wav",Music.class);
-            manager.load("Audio//Hercules - Voices//Hercules//Sandal.wav", Sound.class);
+            manager.load("Audio//Hercules - Voices//Hercules//Sandal.wav", Music.class);
             manager.load("Audio//Hercules - Voices//Hercules//LighteningSword.wav", Music.class);
             manager.load("Audio//Hercules - Voices//Hercules//FireballSword.wav", Music.class);
             manager.load("Audio//Hercules - sounds//Nature Sound.wav", Music.class);    // NATURE
             manager.load("Audio//Hercules - Voices//Phil//Concentrate.wav", Music.class); // CONCENTRATE KID
             manager.load("Audio//Hercules - Voices//Phil//Get your sword.wav", Music.class); // GET YOUR SWORD
             manager.load("Audio//Hercules - Voices//Hercules//BabyDragon.wav", Music.class); //KILLING BABY DRAGONS
-            manager.load("Audio//Hercules - Voices//Phil//Rule number 95.wav", Sound.class); //STARTING GAME
-            manager.load("Audio//Hercules - Voices//Phil//Rule number 96.wav", Sound.class); // SHOOTING RANGE
+            manager.load("Audio//Hercules - Voices//Phil//Rule number 95.wav", Music.class); //STARTING GAME
+            manager.load("Audio//Hercules - Voices//Phil//Rule number 96.wav", Music.class); // SHOOTING RANGE
             manager.load("Audio//Hercules - sounds//IntroMainMenu.mp3", Music.class); // Main Menu Soundtrack
             
             
@@ -69,8 +74,8 @@ public class Main extends Game {
             manager.finishLoading();
             
             // TOGGLE SCREENS
-            setScreen(new IntroScenes(this));
-            //setScreen(new StartMenu(this));
+            //setScreen(new IntroScenes(this));
+            setScreen(new StartMenu(this));
             //setScreen(new PlayScreen(this));
             //setScreen(new PlayScreen2(this));
     }

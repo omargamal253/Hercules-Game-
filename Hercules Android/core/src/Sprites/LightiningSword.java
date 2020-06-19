@@ -17,8 +17,8 @@ public class LightiningSword extends Swords {
         this.herucle = herucle;this.x=x;this.y=y;
              music = Main.manager.get("Audio//Hercules - sounds//Lightening Sword.wav",Music.class);
              music.setLooping(false);
-             music.setVolume(0.5f); 
-             soundsword=0;
+        music.setVolume(Main.vol);
+        soundsword=0;
              
         Tsword = new Texture("Sprites\\lightsword2.png");
         for (int i = 0; i < 3; i++) {

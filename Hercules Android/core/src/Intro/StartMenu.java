@@ -34,6 +34,7 @@ public class StartMenu implements Screen{
     public StartMenu(Main game) {
         music = game.manager.get("Audio//Hercules - sounds//IntroMainMenu.mp3", Music.class);
         music.setLooping(true);
+        music.setVolume(Main.vol);
         music.play();
         this.game = game;
         background = new Texture(Gdx.files.internal("Intros\\0.jpg"));
@@ -96,7 +97,7 @@ public class StartMenu implements Screen{
         });
         stage.addActor(gameInstructions);
         
-        TextButton scoreBoard = new TextButton("Score Board", skin);
+        /*TextButton scoreBoard = new TextButton("Score Board", skin);
         scoreBoard.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 -verticalPos);
         scoreBoard.addListener(new ClickListener() {
             @Override
@@ -106,9 +107,9 @@ public class StartMenu implements Screen{
             }
         });
         stage.addActor(scoreBoard);
-        
+        */
         TextButton levelPassword = new TextButton("Level Password", skin);
-        levelPassword.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 - (startGame.getHeight() + buttonOffset) -verticalPos);
+        levelPassword.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 -verticalPos);
         levelPassword.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -117,20 +118,20 @@ public class StartMenu implements Screen{
             }
         });
         stage.addActor(levelPassword);
-        
+
         TextButton  settings= new TextButton("Settings", skin);
-        settings.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 2*(startGame.getHeight() + buttonOffset) -verticalPos);
+        settings.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 - (startGame.getHeight() + buttonOffset) -verticalPos);
         settings.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new Setting(game, music));
+                game.setScreen(new Setting(game));
                 returnClass().dispose();
             }
         });
         stage.addActor(settings);
-        
+
         TextButton exit = new TextButton("Exit", skin);
-        exit.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 3*(startGame.getHeight() + buttonOffset) -verticalPos);
+        exit.setPosition(Gdx.graphics.getWidth() / 2 - startGame.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 2*(startGame.getHeight() + buttonOffset) -verticalPos);
         exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
