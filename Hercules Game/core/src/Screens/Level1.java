@@ -5,6 +5,7 @@ import HealthAttacker.*;
 import Scenes.*;
 import Sprites.*;
 import StaticGraphics.ReachPoint;
+import Tools.InputHandle;
 import Tools.WorldCreator;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
@@ -39,6 +40,7 @@ public class Level1 extends PlayScreen {
         adaptSounds();
 
         Game.play();
+        inputhandle=new InputHandle(this);
     }
 
     /*Start Constructor Methods*/
@@ -51,7 +53,6 @@ public class Level1 extends PlayScreen {
         goldcoin.add(new GoldenCoin (this,18820,750,player,hud));
 
         silvercoin.add(new SilverCoin (this,13120,272,player,hud));
-
         silvercoin.add(new SilverCoin (this,13120,352,player,hud));
         silvercoin.add(new SilverCoin (this,13120,416,player,hud));
     }
@@ -299,6 +300,7 @@ public class Level1 extends PlayScreen {
             game.setScreen(new GameOver(game));
             dispose();
         }
+        inputhandle.buttonStage.draw();
     }
     /*End Rendering Objects*/
 

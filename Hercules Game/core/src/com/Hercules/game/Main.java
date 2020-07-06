@@ -78,8 +78,8 @@ public class Main extends Game {
         manager.load("Audio//Hercules - Voices//Meg//vase up.mp3" , Music.class);
         manager.finishLoading();
 
-        setScreen(new IntroScenes(this));
-        //setScreen(new StartMenu(this));
+        //setScreen(new IntroScenes(this));
+        setScreen(new StartMenu(this));
         //setScreen(new Level1(this));
         //setScreen(new Level2(this));
         //setScreen(new Level3(this));

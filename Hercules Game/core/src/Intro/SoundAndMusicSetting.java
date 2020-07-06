@@ -64,6 +64,7 @@ public class SoundAndMusicSetting implements Screen {
         });
         stage.addActor(back);
         Gdx.input.setInputProcessor(stage);
+
     }
 
     private void createBasicSkin() {

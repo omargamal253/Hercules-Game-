@@ -77,7 +77,7 @@ public class TallPiller extends Sprite {
         }
     }
     
-    private void handleTallPillarCrash() {
+    public void handleTallPillarCrash() {
         //Allow Crash Animation to start
         if (crashed == false) {
             if (getBoundingRectangle().overlaps(player.getBoundingRectangle())) {
