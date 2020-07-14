@@ -1,6 +1,7 @@
 
 package Screens;
 
+import Intro.StartMenu;
 import StaticGraphics.*;
 import MovingObjects.*;
 import Sprites.*;
@@ -10,13 +11,24 @@ import Tools.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.Hercules.game.Main;
@@ -29,13 +41,16 @@ public abstract class PlayScreen implements Screen{
     public float swordTimer;
     public boolean stopHercAction;
     public boolean noSwords;
+    public boolean paused;
+    public boolean restart;
     public Timer timer;
 
     //Basic PlayScreen Variables
     protected OrthographicCamera gameCam;
     protected Viewport gamePort;
-    protected HUD hud;
-    protected HUD2 hud2;
+    public HUD hud;
+    public HUD2 hud2;
+    public Window pauseWindow;
 
     //Tiled Map Variables
     protected TmxMapLoader mapLoader;
@@ -48,7 +63,6 @@ public abstract class PlayScreen implements Screen{
     protected TextureAtlas Wagon;
     protected TextureAtlas atlas_run;
     protected TextureAtlas atlas_jumb;
-    protected TextureAtlas atlas_pillar;
 
     //Box2d Variables
     protected World world;
@@ -57,7 +71,7 @@ public abstract class PlayScreen implements Screen{
     public WorldContactListener worldContactListener;
 
     //Sounds Variables
-    public Music Game, GameOver;
+    public Music Game, GameOver, concentrate, Victory;
     protected Music m;
 
     //Sprites
@@ -68,13 +82,12 @@ public abstract class PlayScreen implements Screen{
     protected Hercules player;
 
     //Helping Variables and Objects
-    protected ArrayList<GoldenCoin> goldcoin=new ArrayList<>();
-    protected ArrayList<Cannons> filreball=new ArrayList<>();
-    protected ProtectedShield Shield;
+    protected ProtectingShield Shield;
     protected Herculad juice;
     InputHandle inputhandle ;
 
     public PlayScreen(Main game, float HercPosX, String mapPath) {
+
         this.game = game;
         gameCam = new OrthographicCamera();
         gamePort = new StretchViewport(game.WIDTH / Main.PPM, game.HEIGHT / Main.PPM, gameCam);
@@ -89,7 +102,6 @@ public abstract class PlayScreen implements Screen{
         Wagon = new TextureAtlas("Sprites\\Level 2\\Wagon\\Wagon.pack");
         atlas_run = new TextureAtlas("Sprites\\Level 1\\HERCULES\\Run600_75.pack");
         atlas_jumb = new TextureAtlas("Sprites\\Level 1\\HERCULES\\H_Jump.pack");
-        atlas_pillar = new TextureAtlas("Sprites\\Level 1\\Complement\\tallpillar.pack");
         staticGraphics = new DrawClass(this);
 
         //CREATING THE BOX2D AND WORLD PHYSICS
@@ -97,13 +109,10 @@ public abstract class PlayScreen implements Screen{
         worldContactListener = new WorldContactListener();
         world.setContactListener(worldContactListener);
         debuger = new Box2DDebugRenderer();
-        creator = new WorldCreator(this);
-
         player = new Hercules(world, this, HercPosX);
+        creator = new WorldCreator(this);
         worldContactListener.player = player;
 
-        hud = new HUD(player, game.batch);
-        hud2 = new HUD2(player, game.batch);
         staticlightiningsword = new StaticLightSword(15555f / Main.PPM, 300f / Main.PPM, player);
         staticfireballsword = new StaticFireBallSword(10400f / Main.PPM, 300f / Main.PPM, player);
         leftfirball = rightfireball = staticfireballsword;
@@ -111,13 +120,84 @@ public abstract class PlayScreen implements Screen{
         sonicsword = new SonicSword(0, 0, player);
         lightningsword = staticsonicsword;
 
-        timer = new Timer(player, hud, hud2);
-        stopHercAction=false;
+        stopHercAction = restart = paused = false;
 
         //Extra Objects
-        Shield = new ProtectedShield(player, hud, 4512f, 176f);
-        juice = new Herculad(world, this, player, 18080, 432);
+        Shield = new ProtectingShield(player, hud, 4512f, 176f);
+        juice = new Herculad(this, 18080, 432);
+
     }
+
+
+    /*Start Constructor Methods*/
+    protected void adaptSounds(){
+        String path = (noSwords)?"Audio//Hercules - sounds//Game Over 2.mp3":"Audio//Hercules - sounds//Game Over.mp3";
+        GameOver = game.manager.get(path, Music.class);
+        Game = game.manager.get("Audio//Hercules - sounds//Nature Sound.wav", Music.class);
+        Victory = game.manager.get("Audio//Hercules - sounds//Victory.mp3", Music.class);
+        concentrate = game.manager.get("Audio//Hercules - Voices//Phil//Concentrate.wav", Music.class);
+
+        Game.setLooping(true);
+        Game.setVolume(Main.vol);
+    }
+
+
+    protected void createPauseMenu(Stage stage, Skin skin){
+        pauseWindow = new Window("PAUSE", skin);
+        /****************************************************/
+        // Pause Menu TextButtons
+        TextButton continueBtn = new TextButton("Continue", skin);
+        final TextButton soundBtn = new TextButton("Mute Sounds", skin);
+        TextButton exitBtn = new TextButton("Exit", skin);
+        soundBtn.getLabel().setFontScale(0.65f, 1f);
+        continueBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pauseWindow.setVisible(false);
+                paused=false;
+            }
+        });
+        soundBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String s = soundBtn.getText().toString();
+                if(s.equals("Mute Sounds")){
+                    game.vol = 0f;
+                    Game.setVolume(0f);
+                    soundBtn.setText("Unmute Sounds");
+                }
+                else {
+                    game.vol = 1f;
+                    Game.setVolume(1f);
+                    soundBtn.setText("Mute Sounds");
+                }
+            }
+        });
+        exitBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.stop();
+                game.setScreen(new StartMenu(game));
+                dispose();
+            }
+        });
+        /****************************************************/
+        // Independent Pause Menu
+
+        pauseWindow.padTop(200);
+        pauseWindow.getTitleLabel().setAlignment(Align.center); pauseWindow.getTitleLabel().setFontScale(0.6f);
+        pauseWindow.add(continueBtn).padTop(-100f).size(300, 70).row();
+        pauseWindow.add(soundBtn).padTop(20f).size(300, 70).row();
+        pauseWindow.add(exitBtn).padTop(20).size(300, 70);
+        pauseWindow.setSize(stage.getWidth() / 1.5f, stage.getHeight() / 1.2f);
+        pauseWindow.setPosition(stage.getWidth() / 2 - pauseWindow.getWidth() /2, stage.getHeight() / 2 - pauseWindow.getHeight() /2);
+        pauseWindow.setMovable(false);
+        pauseWindow.setVisible(false);
+        /****************************************************/
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(pauseWindow);
+    }
+    /*End Constructor Methods*/
 
     /*Start Objects GETTERS*/
     public TextureAtlas getFlameAtlas() { return FlameAtlas;}
@@ -125,8 +205,6 @@ public abstract class PlayScreen implements Screen{
     public TextureAtlas getTotalAtlas() { return TotalAtlas;}
 
     public TextureAtlas getTotal2Atlas() { return Wagon;}
-
-    public TextureAtlas getAtlas_pillar() { return atlas_pillar;}
 
     public Hercules getPlayer() { return player;}
 
@@ -138,6 +216,9 @@ public abstract class PlayScreen implements Screen{
 
     public TiledMap getMap() {return map;}
     /*End Objects GETTERS*/
+
+
+
 
     /*Start Some Helping Methods*/
     protected void handleInput() {
@@ -196,15 +277,34 @@ public abstract class PlayScreen implements Screen{
 
         } else {
             player.hercules_sword = true;
-                                      HerculesActionSound("Audio//Hercules - sounds//a3.wav");
+            HerculesActionSound("Audio//Hercules - sounds//a3.wav");
 
         }
     }
 
+
     protected void updateCoins() {
-        //golden coins
-        for(int i=0;i<goldcoin.size();i++){
-            goldcoin.get(i).update(player);
+        for(Coin coin : creator.getCoins())
+            coin.update(player);
+    }
+
+    protected void renderCoins() {
+        for(Coin coin : creator.getCoins())
+            coin.draw(game.batch);
+    }
+
+
+    protected void updateFeathers(float dt) {
+
+        for (FeatherSack feather : creator.getFeathers()){
+            feather.child=false; feather.update(dt);
+            if(feather instanceof MovingFeather){feather.child=true;feather.Update();}
+        }
+    }
+    protected void renderFeathers() {
+        for (FeatherSack feather : creator.getFeathers()){
+            if(feather.Rope!=null)feather.Rope.draw(game.batch);
+            feather.draw(game.batch);
         }
     }
 
@@ -225,6 +325,27 @@ public abstract class PlayScreen implements Screen{
         for (Enemy enemy : creator.getBabyDragons()) {
             enemy.update(dt);
         }
+
+    }
+
+    protected void renderCharacters() {
+        creator.getPhill().draw(game.batch);
+        for (SecondaryCharacter bird : creator.getBirds()) {
+            bird.draw(game.batch);
+        }
+        for (SecondaryCharacter deer : creator.getDeers()) {
+            deer.draw(game.batch);
+        }
+        for (SecondaryCharacter apes : creator.getApes()) {
+            apes.draw(game.batch);
+        }
+        for (Flame flame : staticGraphics.getFlames()) {
+            flame.draw(game.batch);
+        }
+        for (Enemy enemy : creator.getBabyDragons()) {
+            enemy.draw(game.batch);
+        }
+
     }
 
     protected void updateSwords() {
@@ -236,24 +357,46 @@ public abstract class PlayScreen implements Screen{
         staticsonicsword.update();
         sonicsword.update();
     }
+    protected void renderSwords() {
+        if(staticlightiningsword.draw)staticlightiningsword.draw(game.batch);
+        lightningsword.draw(game.batch);
+        if(staticfireballsword.draw) staticfireballsword.draw(game.batch);
+        leftfirball.draw(game.batch);
+        rightfireball.draw(game.batch);
+        if(staticsonicsword.draw2)staticsonicsword.draw(game.batch);
+        sonicsword.leftsonic.draw(game.batch);
+        sonicsword.rightsonic.draw(game.batch);
+        sonicsword.upsonic.draw(game.batch);
+    }
+
 
     protected void updateFireBalls() {
-      for(int i=0;i<filreball.size();i++){
-            filreball.get(i).update();
-        }
+        for(Fireball fireball : creator.getFireballs())
+            fireball.update();
     }
+    protected void renderFireballs(){
+        for(Fireball fireball : creator.getFireballs())
+            fireball.draw(game.batch);
+    }
+
 
     protected void  HerculesActionSound (String MusicPath){
-         m = Main.manager.get(MusicPath,Music.class);
-                m.setVolume(Main.vol);
-                m.play();
+        m = Main.manager.get(MusicPath,Music.class);
+        m.setVolume(Main.vol);
+        m.play();
     }
 
+    public abstract void restart();
+
     protected boolean gameOver() {
-        if (player.currentState == Hercules.State.die && player.getStateTimer() > 1.4) {
-            GameOver.setVolume(Main.vol);
-            GameOver.play();
-            return true;
+
+        if (player.currentState == Hercules.State.die)  {
+            if ((player.getStateTimer() > 1.35f)){
+                GameOver.setVolume(Main.vol);
+                GameOver.play();
+                return true;
+            }
+            stopHercAction=true;
         }
         return false;
     }
@@ -275,50 +418,6 @@ public abstract class PlayScreen implements Screen{
     public void render(float dt) {
     }
 
-    protected void renderCharacters() {
-        creator.getPhill().draw(game.batch);
-        for (SecondaryCharacter bird : creator.getBirds()) {
-            bird.draw(game.batch);
-        }
-        for (SecondaryCharacter deer : creator.getDeers()) {
-            deer.draw(game.batch);
-        }
-        for (SecondaryCharacter apes : creator.getApes()) {
-            apes.draw(game.batch);
-        }
-        for (Flame flame : staticGraphics.getFlames()) {
-            flame.draw(game.batch);
-        }
-        for (Enemy enemy : creator.getBabyDragons()) {
-            enemy.draw(game.batch);
-        }
-    }
-
-    protected void renderSwords() {
-        staticlightiningsword.draw(game.batch);
-        lightningsword.draw(game.batch);
-        staticfireballsword.draw(game.batch);
-        leftfirball.draw(game.batch);
-        rightfireball.draw(game.batch);
-        staticsonicsword.draw(game.batch);
-        sonicsword.leftsonic.draw(game.batch);
-        sonicsword.rightsonic.draw(game.batch);
-        sonicsword.upsonic.draw(game.batch);
-    }
-
-    protected void renderCoins() {
-       //Golden Coins
-       for(int i=0;i<goldcoin.size();i++){
-            goldcoin.get(i).draw(game.batch);
-       }
-    }
-
-    protected void renderFireball(){
-       //Cannons fireballs
-        for(int i=0;i<filreball.size();i++){
-            filreball.get(i).draw(game.batch);
-        }
-    }
 
     @Override
     public void resize(int width, int height) {

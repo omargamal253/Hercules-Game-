@@ -28,7 +28,7 @@ public class StartMenu implements Screen {
     private Viewport viewport;
     
     public StartMenu(Main game) {
-        music = game.manager.get("Audio//Hercules - sounds//IntroMainMenu.mp3", Music.class);
+        music = game.manager.get("Audio//Hercules - sounds//MainMenu.mp3", Music.class);
         music.setVolume(Main.vol);        
         music.play();
         this.game = game;
@@ -103,8 +103,8 @@ public class StartMenu implements Screen {
         scoreBoard.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new ScoreBoard(game));
-                //getThisClass().dispose();
+                game.setScreen(new ScoreBoard(game));
+                getThisClass().dispose();
             }
         });
         stage.addActor(scoreBoard);

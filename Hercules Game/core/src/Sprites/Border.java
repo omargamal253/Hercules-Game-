@@ -1,8 +1,8 @@
 
 package Sprites;
 
-import Screens.PlayScreen;
 import com.Hercules.game.Main;
+import Screens.PlayScreen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -13,5 +13,5 @@ public class Border extends Sprite{
         setBounds(0,0, 2/Main.PPM,200/ Main.PPM);
         setPosition(x, y);
     }
-    
+
 }

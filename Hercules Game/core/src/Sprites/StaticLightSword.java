@@ -1,8 +1,8 @@
 package Sprites;
 
+import com.Hercules.game.Main;
 import MovingObjects.Hercules;
 import Sprites.Swords;
-import com.Hercules.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class StaticLightSword extends Swords{
     int counter,soundcounter;
-    
+
     public StaticLightSword(float x, float y, Hercules herucle) {
         this.herucle = herucle;this.x=x;this.y=y;
         Tsword = new Texture("Sprites\\Level 1\\Swords\\lightsword.png");
@@ -27,23 +27,23 @@ public class StaticLightSword extends Swords{
         setBounds(0, 0, 76 * 3 / Main.PPM, 215 / Main.PPM);
         setPosition(x, y);
         music = Main.manager.get("Audio//Hercules - Voices//Hercules//LighteningSword.wav", Music.class);
+        draw=true;
     }
-     @Override
+    @Override
     public void update() {
         if (herucle.body.getPosition().x > x-(940/Main.PPM) && soundcounter==0)
         {music.setVolume(Main.vol);
-             music.play();
-             soundcounter++; 
+            music.play();
+            soundcounter++;
         }
-        
-         if (herucle.body.getPosition().x > x && herucle.body.getPosition().x < x+76 * 3 / Main.PPM&&herucle.body.getPosition().y>y &&herucle.body.getPosition().y<y+215 / Main.PPM&&counter==0)
+
+        if (herucle.body.getPosition().x > x && herucle.body.getPosition().x < x+76 * 3 / Main.PPM&&herucle.body.getPosition().y>y &&herucle.body.getPosition().y<y+215 / Main.PPM&&counter==0)
         {
-            
-           counter++;  
-           herucle.pickedlightsword=true;
-           setBounds(0,0,0,0);  
+            counter++;
+            herucle.pickedlightsword=true;
+            draw=false;
         }
-        
+
         statetimer += Gdx.graphics.getDeltaTime();
         region = (TextureRegion) Asword.getKeyFrame(statetimer, true);
         setRegion(region);
@@ -51,7 +51,14 @@ public class StaticLightSword extends Swords{
             statetimer = 0;
         }
     }
-     public boolean Finish(){
+    public boolean Finish(){
         return false ;
+    }
+    public void resetData(){
+        counter=0; soundcounter=0;
+        setBounds(0, 0, 79 / Main.PPM, 225 / Main.PPM);
+        setPosition(x, y);
+        herucle.pickedlightsword=false;
+        draw=true;
     }
 }

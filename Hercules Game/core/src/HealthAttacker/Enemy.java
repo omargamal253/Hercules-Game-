@@ -12,7 +12,7 @@ public abstract class Enemy extends Sprite{
     protected PlayScreen screen;
     public Body body;
     public Vector2 velocity;
-    
+
     public Enemy(PlayScreen screen, float x, float y){
         this.world = screen.getWorld();
         this.screen = screen;
@@ -20,12 +20,12 @@ public abstract class Enemy extends Sprite{
         defineEnemy();
         velocity = new Vector2(-0.5f, 0);
     }
-    
+
     protected abstract void defineEnemy();
     public abstract void attackHercules();
     public abstract void update (float dt);
     public  abstract void Stap();
-    
+
     public void reverseVelocity(boolean x, boolean y){
         if (x)
             velocity.x = -velocity.x;

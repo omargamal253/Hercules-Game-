@@ -1,8 +1,7 @@
-
 package Scenes;
 
-import Screens.Level1;
 import com.Hercules.game.Main;
+import Intro.StartMenu;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -23,7 +22,7 @@ public class GameOver implements Screen{
     private Stage stage;
     private Game game;
     private Texture background;
-   
+
     public GameOver(Game game) {
         this.game = game;
         viewport = new StretchViewport(Main.WIDTH, Main.HEIGHT,  new OrthographicCamera());
@@ -34,18 +33,18 @@ public class GameOver implements Screen{
         BitmapFont FONT2= new BitmapFont(Gdx.files.internal("Fonts\\playAgain.fnt"));
         Label.LabelStyle font = new LabelStyle(FONT, null);
         Label.LabelStyle font2 = new LabelStyle(FONT2, null);
-        
+
         Table table = new Table();
         table.center();
         table.setFillParent(true);
-        
+
         Label gameOverLabel = new Label("GAME OVER", font);
         Label toMainMenuLabel = new Label("Press Any Key To Go To Main Menu", font2);
-        
+
         table.add(gameOverLabel).expandX().padTop(300f);
         table.row();
         table.add(toMainMenuLabel).expandX().padTop(-50f);;
-        
+
         stage.addActor(table);
         //playVideo();
     }
@@ -53,7 +52,7 @@ public class GameOver implements Screen{
     private void playVideo(){
         try {
             Desktop.getDesktop().open(new File("Intros\\OpeningScene.mp4"));
-            
+
         } catch (IOException ex) {
             Logger.getLogger(GameOver.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,18 +60,18 @@ public class GameOver implements Screen{
     */
     @Override
     public void render(float dt) {
-       Gdx.gl.glClearColor(1, 1, 1, 1);
-       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (Gdx.input.justTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
-            game.setScreen(new Level1((Main)game));
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (Gdx.input.justTouched() ){
+            game.setScreen(new StartMenu((Main)game));
             dispose();
         }
         Main.batch.begin();
-            Main.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
+        Main.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
         Main.batch.end();
         stage.draw();
     }
-    
+
     @Override
     public void show() {
     }
@@ -98,5 +97,5 @@ public class GameOver implements Screen{
         stage.dispose();
         background.dispose();
     }
-    
+
 }

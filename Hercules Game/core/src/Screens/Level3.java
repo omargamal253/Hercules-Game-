@@ -16,24 +16,29 @@ public class Level3 extends PlayScreen{
     
     public Level3(Main game){
         super(game, 100.00f, "C:\\Users\\Google\\Desktop\\Level Three\\Map.tmx");// 1300f
-      
+
         sea = new Sea(this);
     }
     
      public void update(float dt){
-        handleInput();
-        world.step(1/60f, 6, 2);  
-        
-        player.update(dt);
-        sea.update(dt);
-        
-        gameCam.update();
-        renderer.setView(gameCam);
-        
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) 
-            System.exit(0);
+         handleInput();
+         world.step(1/60f, 6, 2);
+
+         player.update(dt);
+         sea.update(dt);
+
+         gameCam.update();
+         renderer.setView(gameCam);
+
+         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+             System.exit(0);
     }
-    
+
+    @Override
+    public void restart() {
+
+    }
+
     @Override
     public void render(float delta) {
        update(delta);

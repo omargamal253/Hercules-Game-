@@ -1,7 +1,7 @@
 package MovingObjects;
 
-import Screens.*;
 import com.Hercules.game.Main;
+import Screens.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 public class Hercules extends Sprite {
-    
+
     public PlayScreen screen;
     public World world;
     public Body body;
@@ -28,7 +28,7 @@ public class Hercules extends Sprite {
     private float HerculesInitPosX=10f;
     private float HerculesInitPosY = 180f;
     public float HerculesMaxSpeed = 1.5f;
-    
+
     public enum State {
         FALLING, JUMPING, STANDING, RUNNING, pushing_hand, pushing_sword, pushing_sword2, pushing_sword3, Drink, die, smallPush
     };
@@ -54,24 +54,23 @@ public class Hercules extends Sprite {
     public static boolean hercules_sword2 = false;
     public float timeSword2 = 0;
     public static boolean hercules_sword3 = false;
-    private float timeSword3 = 0;
     public static boolean hercules_Drink = false;
     private float timeDrink = 0;
     public static boolean hercules_Die = false;
     private float timeDie = 0;
     public boolean hercules_Smallpush = false;
     public float timeSmallPush = 0;
-    private Music sound;
+    public Music sound, danger;
     private static float soundTimer;
-    
+
     public Hercules(World world, PlayScreen screen, float posX){
-         this.HerculesInitPosX = posX;
-         initializeConstructors(world, screen);
+        this.HerculesInitPosX = posX;
+        initializeConstructors(world, screen);
     }
     public Hercules(World world, PlayScreen screen) {
-       initializeConstructors(world, screen);
+        initializeConstructors(world, screen);
     }
-    
+
     private void initializeConstructors(World world, PlayScreen screen){
         this.world = world;
         this.screen = screen;
@@ -83,8 +82,9 @@ public class Hercules extends Sprite {
         runningRight = true;
         setBounds(0, 0, 50 * 3 / Main.PPM, 75 * 3 / Main.PPM);
         defineAnimation(screen);
-        
+
         sound = Main.manager.get("Audio//Hercules - Voices//Phil//Get your sword.wav", Music.class);
+        danger = Main.manager.get("Audio//Hercules - sounds//Red Zone.mp3", Music.class);
     }
 
     public boolean isRunningRight() {
@@ -95,9 +95,16 @@ public class Hercules extends Sprite {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 + 50 / Main.PPM);
         setRegion(getFrame(dt));
         getYourSword(dt);
+        if (screen.noSwords)Level2DangerArea();
+    }
+    private void Level2DangerArea(){
+        if (body.getPosition().x >46272.00 / Main.PPM && body.getPosition().x < 68784.00 && !danger.isPlaying()){
+            danger.play();
+            danger.setVolume(Main.vol);
+        }
     }
 
-    // this fn return which animation that will draw now 
+    // this fn return which animation that will draw now
     public TextureRegion getFrame(float dt) {
         currentState = getState();
 
@@ -159,7 +166,7 @@ public class Hercules extends Sprite {
         return region;
     }
 
-    // this fn return the Hercules state that doing now 
+    // this fn return the Hercules state that doing now
     public State getState() {
         //Test to Box2D for velocity on the X and Y-Axis
         if(Wagon.running)
@@ -192,7 +199,7 @@ public class Hercules extends Sprite {
 
     }
 
-    // this fn make the circle Which we move it and take his postion and give it to Hercules sprite  
+    // this fn make the circle Which we move it and take his postion and give it to Hercules sprite
     private void defineHercules() {
         bdef = new BodyDef();
         bdef.position.set(HerculesInitPosX / Main.PPM, HerculesInitPosY / Main.PPM);
@@ -228,9 +235,9 @@ public class Hercules extends Sprite {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         //get run animation frames and add them to HerculesRun Animation
-            for (int i = 1; i < 8; i++) 
-                frames.add(new TextureRegion(screen.getAtlas_Run().findRegion("run__"), i * 50, 0, 47, 75));
-        
+        for (int i = 1; i < 8; i++)
+            frames.add(new TextureRegion(screen.getAtlas_Run().findRegion("run__"), i * 50, 0, 47, 75));
+
         HerculesRun = new Animation(0.1f, frames);
 
         frames.clear();
@@ -279,8 +286,8 @@ public class Hercules extends Sprite {
         HerculesSword = new Animation(0.1f, frames);
         HerculesSword.setPlayMode(Animation.PlayMode.NORMAL);
         frames.clear();
-        
-         frames.add(new TextureRegion(new Texture("Sprites\\Level 1\\HERCULES\\Herclues_sword2\\1.png"), 0, 0, 45, 84));
+
+        frames.add(new TextureRegion(new Texture("Sprites\\Level 1\\HERCULES\\Herclues_sword2\\1.png"), 0, 0, 45, 84));
         frames.add(new TextureRegion(new Texture("Sprites\\Level 1\\HERCULES\\Herclues_sword2\\2.png"), 0, 0, 75, 86));
         frames.add(new TextureRegion(new Texture("Sprites\\Level 1\\HERCULES\\Herclues_sword2\\3.png"), 0, 0, 50, 86));
 
@@ -356,7 +363,7 @@ public class Hercules extends Sprite {
             return false;
         }
     }
-    // this fn return true when Hercures pushing by sword 
+    // this fn return true when Hercures pushing by sword
 
     public boolean pushing_sword() {
         if (hercules_sword == true) {
@@ -387,7 +394,7 @@ public class Hercules extends Sprite {
         }
     }
 
-    // this fn return true when Hercures Drink 
+    // this fn return true when Hercures Drink
     public boolean Hercules_Drink() {
         if (hercules_Drink == true) {
             timeDrink += Gdx.graphics.getDeltaTime();
@@ -407,7 +414,7 @@ public class Hercules extends Sprite {
     public boolean Hercules_Die() {
         if (hercules_Die == true) {
             timeDie += Gdx.graphics.getDeltaTime();
-            if (timeDie < 1.5) {
+            if (timeDie < 1.6) {
                 return true;
             } else {
                 timeDie = 0;
@@ -418,25 +425,25 @@ public class Hercules extends Sprite {
             return false;
         }
     }
-     //
-   public float getStateTimer(){
-       return stateTimer;
-   }
-   
+    //
+    public float getStateTimer(){
+        return stateTimer;
+    }
+
     private void getYourSword(float dt){
         if (body.getLinearVelocity().x==0 && body.getLinearVelocity().y==0){
             soundTimer += dt;
-            if (soundTimer > 20 && soundTimer != 0){
+            if (soundTimer > 15 && soundTimer != 0){
                 soundTimer=0;
                 if (!sound.isPlaying())
                     sound.setVolume(Main.vol);
-                    sound.play();
+                sound.play();
             }
         }
         else soundTimer=0;
     }
-   
+
     public static void toLevel2(){
-        
+
     }
 }

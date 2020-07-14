@@ -1,4 +1,3 @@
-
 package HealthAttacker;
 
 import com.Hercules.game.Main;
@@ -9,13 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class VultureEgg extends Sprite{
-    
+
     private Animation animation;
     private float stateTimer;
+    public float x, y;
 
-    public VultureEgg(float x, float y) {
+    public VultureEgg() {
         defineEgg();
-        setPosition(x, y);
+        x=y=0f;
     }
 
     private void defineEgg() {
@@ -25,11 +25,11 @@ public class VultureEgg extends Sprite{
         animation = new Animation(0.1f, frames);
         setBounds(0, 0, 60/Main.PPM, 60/Main.PPM);
     }
-    
+
     public void update(float dt){
         stateTimer += dt;
         setRegion((TextureRegion) animation.getKeyFrame(stateTimer, true));
-        setPosition(getX(), getY() - 2/Main.PPM);
+        setPosition(x, y - 2/Main.PPM); y=y - 2/Main.PPM;
     }
-    
 }
+

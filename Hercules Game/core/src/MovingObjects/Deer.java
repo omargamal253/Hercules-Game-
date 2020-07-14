@@ -1,8 +1,9 @@
 
 package MovingObjects;
 
-import Screens.PlayScreen;
+
 import com.Hercules.game.Main;
+import Screens.PlayScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,14 +20,14 @@ public class Deer extends SecondaryCharacter{
     private Array<TextureRegion> frames;
     public Deer(PlayScreen screen, float x, float y) {
         super(screen, x, y);
-        
-         frames = new Array<TextureRegion>();
+
+        frames = new Array<TextureRegion>();
         for (int i =0; i < 6; ++i)
             frames.add(new TextureRegion(screen.getTotalAtlas().findRegion("Deer"), i*125, 0, 125, 105));
-           
+
         runningAnimation = new Animation(0.2f, frames);
         frames.clear();
-        
+
         stateTime = 0;
         runningTime = 0;
         once =false;
@@ -34,7 +35,7 @@ public class Deer extends SecondaryCharacter{
     }
 
     @Override
-    protected void defineCharacter() {
+    protected void defineObject() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(getX(),getY());
         bdef.type = BodyDef.BodyType.DynamicBody ;
@@ -45,10 +46,10 @@ public class Deer extends SecondaryCharacter{
         shape.setRadius(20 / Main.PPM);
 
         //fdef.filter.categoryBits = Main.ENEMY_BIT;
-        fdef.filter.maskBits = Main.CHARACTERS_GROUND_BIT; 
+        fdef.filter.maskBits = Main.CHARACTERS_GROUND_BIT;
 
         fdef.shape = shape ;
-        body.createFixture(fdef).setUserData(this); 
+        body.createFixture(fdef).setUserData(this);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class Deer extends SecondaryCharacter{
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight()/2);
         currentRegion = (TextureRegion)runningAnimation.getKeyFrame(stateTime, true);
         setRegion(currentRegion);
-   
+
         if (runningTime > 10){
             reverseVelocity(true, false);
             runningTime=0;
@@ -70,11 +71,11 @@ public class Deer extends SecondaryCharacter{
             runningTime = 0;
             once = true;
         }
-        
+
         if (velocity.x> 0 && !currentRegion.isFlipX())
-           currentRegion.flip(true, false);
+            currentRegion.flip(true, false);
         else if (velocity.x < 0 && currentRegion.isFlipX())
-           currentRegion.flip(true, false);
+            currentRegion.flip(true, false);
     }
-    
+
 }

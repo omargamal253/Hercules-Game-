@@ -77,8 +77,8 @@ public class Setting  implements Screen{
         controlerkeys.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                //game.setScreen(new ControlerSetting(game));
-                //stage.dispose();
+                game.setScreen(new ButtonsSetting(game));
+                stage.dispose();
             }
         });
         stage.addActor(controlerkeys);
@@ -93,18 +93,9 @@ public class Setting  implements Screen{
         });
         stage.addActor(MusicandSound);
         
-        TextButton screendisplay  = new TextButton("Screen Display", skin);
-        screendisplay.setPosition(MusicandSound.getX() ,MusicandSound.getY()-140);
-        screendisplay.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                //game.setScreen(new ScreenSetting(game));
-                //stage.dispose();
-            }
-        });
-        stage.addActor(screendisplay);
+
         TextButton back = new TextButton("Back", skin);
-        back.setPosition(screendisplay.getX(),screendisplay.getY()-140);
+        back.setPosition(MusicandSound.getX(),MusicandSound.getY()-140);
         
         back.addListener(new ClickListener() {  // RESET DEFAULT
             @Override

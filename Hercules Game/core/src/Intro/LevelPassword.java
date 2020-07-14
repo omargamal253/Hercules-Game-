@@ -9,7 +9,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -48,9 +47,12 @@ public class LevelPassword implements Screen {
     public Sprite sprite1, sprite2, sprite3, sprite4;
     boolean p1 =true , p2=true , p3=true , p4=true ;
     public boolean up=false,down=false,success=false;
+    public ImageButton right;
+    public ImageButton left;
+    public ImageButton enter;
 
     Music wrongpassword , pass , morewrongpass , time,start,vaseup,vasedown ;
-int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
+    int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
     public LevelPassword(final Main game) {
 
         LoadMusic();
@@ -99,7 +101,42 @@ int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
                 getThisClass().dispose();
             }
         });
+
         stage.addActor(back);
+
+        left = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\leftMeg.png"))));
+        left.setPosition( 500,1200);
+        left.setSize(150f,200f);
+        left.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+
+        stage.addActor(left);
+
+        enter = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\enterMeg.png"))));
+        enter.setPosition( 730,1195);
+        enter.setSize(200f,250f);
+        enter.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+
+        stage.addActor(enter);
+
+        right = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\rightMeg.png"))));
+        right.setPosition( 1000,1200);
+        right.setSize(150f,200f);
+        right.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+
+        stage.addActor(right);
+
         Gdx.input.setInputProcessor(stage);
         //---------------------------
     }
@@ -115,39 +152,36 @@ int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
         start.setLooping(false);
         start.setVolume(Main.vol);
         start.play();
-        
+
         vaseup=game.manager.get("Audio//Hercules - Voices//Meg//vase up.mp3" ,Music.class);
         vaseup.setLooping(false);
         vaseup.setVolume(Main.vol);
-            
+
         vasedown=game.manager.get("Audio//Hercules - Voices//Meg//vase down.mp3",Music.class);
         vasedown.setLooping(false);
         vasedown.setVolume(Main.vol);
-            
+
         pass = game.manager.get("Audio//Hercules - Voices//Meg//Oh we got a winner.wav",Music.class);
         pass.setLooping(false);
         pass.setVolume(Main.vol);
-                
+
         wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//Wrong password.wav",Music.class);
         wrongpassword.setLooping(false);
         wrongpassword.setVolume(Main.vol);
-        
-         time =game.manager.get("Audio//Hercules - Voices//Meg//time to play vases.wav",Music.class);
-         time.setLooping(false);
-         time.setVolume(Main.vol);
+
+        time =game.manager.get("Audio//Hercules - Voices//Meg//time to play vases.wav",Music.class);
+        time.setLooping(false);
+        time.setVolume(Main.vol);
     }
 
     private LevelPassword getThisClass(){return this;}
     public void handleInput(float dt) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-        meg.body.setLinearVelocity(100, 0);
-                System.out.println(meg.body.getPosition().x);
+            meg.body.setLinearVelocity(100, 0);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-                meg.body.setLinearVelocity(-100, 0);
-
-                System.out.println(meg.body.getPosition().x);
-                  prevcounter = counter;
+            meg.body.setLinearVelocity(-100, 0);
+            prevcounter = counter;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
         {
@@ -171,46 +205,46 @@ int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
             if (meg.st3 == true)vases.Counterv3--;
             if (meg.st4 == true)vases.Counterv4--;
             tmpCounter++;
-            
+
             vasedown.play();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             if (vases.Counterv1 == 3 && vases.Counterv2 ==2 && vases.Counterv3 == 0 && vases.Counterv4==3 ) {
                 success = true;
-                
+
                 pass.play();
             }
             else{
-                  wrongCounter++;
-                  if (wrongCounter< 3) {
-                      
-                      wrongpassword.play();
-                  }
-                  else if (wrongCounter<6)
-                  {
-                      wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//More Wrong Password.wav",Music.class);
+                wrongCounter++;
+                if (wrongCounter< 3) {
 
-                      wrongpassword.setLooping(false);
-                      wrongpassword.setVolume(Main.vol);
-                      wrongpassword.play();
-                  }
-                     else {
-                         wrongCounter=0;
-                      wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//Dont waste my time.wav",Music.class);
-                      wrongpassword.setLooping(false);
-                      wrongpassword.setVolume(Main.vol);
-                      wrongpassword.play();
-                  }
+                    wrongpassword.play();
+                }
+                else if (wrongCounter<6)
+                {
+                    wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//More Wrong Password.wav",Music.class);
+
+                    wrongpassword.setLooping(false);
+                    wrongpassword.setVolume(Main.vol);
+                    wrongpassword.play();
+                }
+                else {
+                    wrongCounter=0;
+                    wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//Dont waste my time.wav",Music.class);
+                    wrongpassword.setLooping(false);
+                    wrongpassword.setVolume(Main.vol);
+                    wrongpassword.play();
+                }
             }
         }
     }
 
     public void update(float dt) {
-     if (tmpCounter == 10) {
-         tmpCounter = 0;
-        
-         time.play();
-     }
+        if (tmpCounter == 10) {
+            tmpCounter = 0;
+
+            time.play();
+        }
         if (!sprite4.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p4=true;
         if ( !sprite3.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p3=true;
         if( !sprite2.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p2=true;
@@ -220,7 +254,7 @@ int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
         gamecam.update();
         renderer.setView(gamecam);
         meg.update(dt);
-       counter +=  Gdx.graphics.getDeltaTime();
+        counter +=  Gdx.graphics.getDeltaTime();
         if (new Rectangle( 570-140 , 40, 1, sprite2.getHeight()).overlaps(new Rectangle(meg.body.getPosition().x , meg.body.getPosition().y , 1,200))){
             meg.body.setLinearVelocity(0, 0);
 
@@ -277,40 +311,44 @@ int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
         }
 
         vases.update(dt);
-}
+    }
     @Override
     public void render(float delta) {
-         update(delta);
-         Gdx.gl.glClearColor(0,0,0,1);
-         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-         renderer.render();
-         game.batch.setProjectionMatrix(gamecam.combined);
+        update(delta);
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        renderer.render();
+        game.batch.setProjectionMatrix(gamecam.combined);
 
-     game.batch.begin();
-         game.batch.draw(stand1 , 190 , 70);
-         game.batch.draw(stand2 , 570 , 70);
-         game.batch.draw(stand3 ,  910, 70);
-         game.batch.draw(stand4 , 1260 , 70);
+        game.batch.begin();
+        game.batch.draw(stand1 , 190 , 70);
+        game.batch.draw(stand2 , 570 , 70);
+        game.batch.draw(stand3 ,  910, 70);
+        game.batch.draw(stand4 , 1260 , 70);
 
-         vases.s1.draw(game.batch);
-         vases.s2.draw(game.batch);
-         vases.s3.draw(game.batch);
-         vases.s4.draw(game.batch);
-         meg.draw(game.batch );
-     game.batch.end();
-     
-     if (!pass.isPlaying()  && success){
-         game.setScreen(new Level1(game));
-         this.dispose();
-     }
+        vases.s1.draw(game.batch);
+        vases.s2.draw(game.batch);
+        vases.s3.draw(game.batch);
+        vases.s4.draw(game.batch);
+        meg.draw(game.batch );
+        game.batch.end();
 
-     stage.act();
-     stage.draw();
+        if (!pass.isPlaying()  && success){
+            game.setScreen(new Level1(game));
+            this.dispose();
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(new StartMenu(game));
+            dispose();
+        }
+        stage.act();
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-          gameport.update(width,height);
+        gameport.update(width,height);
     }
 
     @Override

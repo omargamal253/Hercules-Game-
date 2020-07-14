@@ -1,9 +1,10 @@
 
 package Sprites;
 
+
+import com.Hercules.game.Main;
 import MovingObjects.Hercules;
 import Sprites.Swords;
-import com.Hercules.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class StaticFireBallSword extends Swords{
     int counter,soundcounter;
+
     public StaticFireBallSword(float x, float y, Hercules herucle) {
         this.herucle = herucle;this.x=x;this.y=y;
         Array<TextureRegion> frame= new Array<TextureRegion>();
@@ -26,19 +28,21 @@ public class StaticFireBallSword extends Swords{
         setBounds(0, 0, 79 / Main.PPM, 225 / Main.PPM);
         setPosition(x, y);
         music = Main.manager.get("Audio//Hercules - Voices//Hercules//FireballSword.wav", Music.class);
+        draw=true;
     }
-     @Override
+    @Override
     public void update() {
-       if (herucle.body.getPosition().x > x-(960/Main.PPM) && soundcounter==0)
+        if (herucle.body.getPosition().x > x-(960/Main.PPM) && soundcounter==0)
         {        music.setVolume(Main.vol);
-             music.play();
-             soundcounter++; 
+            music.play();
+            soundcounter++;
         }
         if(herucle.body.getPosition().x >x&&herucle.body.getPosition().x <x+79/Main.PPM && herucle.body.getPosition().y>y&&herucle.body.getPosition().y<y+225/Main.PPM && counter==0)
         {
             counter++;
             herucle.pickedfireballsword=true;
-            setBounds(0,0,0,0);
+            draw=false;
+            setBounds(0, 0, 0, 0);
         }
         statetimer += Gdx.graphics.getDeltaTime();
         region = (TextureRegion) Asword.getKeyFrame(statetimer, true);
@@ -47,8 +51,15 @@ public class StaticFireBallSword extends Swords{
             statetimer = 0;
         }
     }
-     public boolean Finish(){
+    public boolean Finish(){
         return false ;
+    }
+    public void resetData(){
+        counter=0; soundcounter=0;
+        setBounds(0, 0, 79 / Main.PPM, 225 / Main.PPM);
+        setPosition(x, y);
+        herucle.pickedfireballsword=false;
+        draw=true;
     }
 }
 

@@ -1,9 +1,9 @@
 
 package Sprites;
 
+import com.Hercules.game.Main;
 import MovingObjects.Hercules;
 import Sprites.Swords;
-import com.Hercules.game.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,12 +12,13 @@ import com.badlogic.gdx.utils.Array;
 
 public class StaticSonicSword extends Swords{
     int counter;
+
     public StaticSonicSword(float x, float y, Hercules herucle) {
         this.herucle = herucle;this.x=x;this.y=y;
         Array<TextureRegion> frame= new Array<TextureRegion>();
         Tsword = new Texture("Sprites\\Level 1\\Swords\\LeftSonicSword.png");
         frame.add(new TextureRegion(Tsword));
-       Tsword = new Texture("Sprites\\Level 1\\Swords\\UpSonicSword.png");
+        Tsword = new Texture("Sprites\\Level 1\\Swords\\UpSonicSword.png");
         frame.add(new TextureRegion(Tsword));
         Tsword = new Texture("Sprites\\Level 1\\Swords\\RightSonicSword.png");
         frame.add(new TextureRegion(Tsword));
@@ -27,25 +28,33 @@ public class StaticSonicSword extends Swords{
         counter=0;
         setBounds(0,0,200/Main.PPM,200/Main.PPM);
         setPosition(x, y);
+        draw2=true;
     }
 
     @Override
     public void update() {
-          if(herucle.body.getPosition().x >x && herucle.body.getPosition().y>y && counter==0&&herucle.body.getPosition().x<x+100/Main.PPM)
+        if(herucle.body.getPosition().x >x && herucle.body.getPosition().y>y && counter==0&&herucle.body.getPosition().x<x+100/Main.PPM)
         {
             counter++;
             herucle.pickedsonicsword=true;
-            setBounds(0,0,0,0);
+            draw2=false;
         }
-         statetimer += Gdx.graphics.getDeltaTime();
-      
+        statetimer += Gdx.graphics.getDeltaTime();
+
         region = (TextureRegion) Asword.getKeyFrame(statetimer, true);
         setRegion(region);
         if (statetimer>5)statetimer=0;
     }
-    
-        public boolean Finish(){
+
+    public boolean Finish(){
         return false ;
+    }
+    public void resetData(){
+        counter=0;
+        setBounds(0,0,200/Main.PPM,200/Main.PPM);
+        setPosition(x, y);
+        herucle.pickedsonicsword=false;
+        draw2=true;
     }
 
 }
