@@ -1,12 +1,12 @@
 
 package Sprites;
 
-import com.Hercules.game.Main;
-import MovingObjects.Hercules;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import MovingObjects.Hercules;
 
 public class SonicSword extends Swords{
     public Rectangle recleftsonic,recrightsonic,recupsonic;

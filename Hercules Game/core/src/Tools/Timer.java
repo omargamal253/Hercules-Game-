@@ -1,8 +1,8 @@
 
 package Tools;
 
-import Scenes.HUD;
 import MovingObjects.Hercules;
+import Scenes.HUD;
 import com.badlogic.gdx.Gdx;
 
 public class Timer {

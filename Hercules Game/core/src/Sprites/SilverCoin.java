@@ -1,6 +1,6 @@
 package Sprites;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import MovingObjects.Hercules;
 import Scenes.HUD;
 import Scenes.HUD2;

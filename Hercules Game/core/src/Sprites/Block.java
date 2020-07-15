@@ -1,7 +1,7 @@
 
 package Sprites;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import HealthAttacker.FeatherSack;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

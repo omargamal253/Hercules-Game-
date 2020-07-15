@@ -1,6 +1,6 @@
 package MovingObjects;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Screens.PlayScreen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;

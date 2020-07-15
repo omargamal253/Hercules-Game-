@@ -1,27 +1,14 @@
 package Screens;
 
-import HealthAttacker.*;
-import Intro.StartMenu;
+import com.main.Main;
 import Scenes.*;
 import Sprites.*;
 import StaticGraphics.ReachPoint;
 import Tools.InputHandle;
 import Tools.Timer;
-import Tools.WorldCreator;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.Hercules.game.Main;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /* LEVEL ONE SCREEN  */
 public class Level1 extends PlayScreen {
@@ -30,10 +17,9 @@ public class Level1 extends PlayScreen {
     private ReachPoint reachPoint;
 
     public Level1(Main game) {
-        super(game, 750f, "Maps\\Level One\\HerculesMap.tmx"); // 750f
+        super(game, 750.00f, "Maps\\Level One\\HerculesMap.tmx"); // 750f
 
         hud = new HUD(this);
-        createPauseMenu(hud.stage, hud.skin);
         timer = new Timer(player, hud);
         block = new Block(4360, 60, world, 4);
         piller = new TallPiller(this, 6660, 50);
@@ -42,7 +28,7 @@ public class Level1 extends PlayScreen {
         adaptSounds();
         Game.play();
         inputhandle=new InputHandle(this);
-
+        createPauseMenu(inputhandle.buttonStage, hud.skin);
     }
 
     @Override
@@ -91,6 +77,8 @@ public class Level1 extends PlayScreen {
         Shield.update(dt);
         reachPoint.update(dt);
 
+        inputhandle.normalPunch=false;
+        inputhandle.powerPunch=false;
         gameCam.update();
         renderer.setView(gameCam);
 
@@ -101,14 +89,7 @@ public class Level1 extends PlayScreen {
             dispose();
         }
         cameraScoop(1000f, 23000f);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            pauseWindow.setVisible(true);
-            paused=true;
-        }
-
-
     }
-
 
     @Override
     public void render(float delta) {
@@ -140,9 +121,9 @@ public class Level1 extends PlayScreen {
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+
         hud.stage.draw();
         inputhandle.buttonStage.draw();
-
     }
     /*End Rendering Objects*/
 

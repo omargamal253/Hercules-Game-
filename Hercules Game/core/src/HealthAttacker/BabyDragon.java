@@ -3,7 +3,7 @@ package HealthAttacker;
 
 import Scenes.HUD;
 import Screens.PlayScreen;
-import com.Hercules.game.Main;
+import com.main.Main;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;

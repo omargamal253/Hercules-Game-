@@ -1,7 +1,7 @@
 
 package StaticGraphics;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Screens.PlayScreen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 
 public class ArabBoy extends Sprite{
 

@@ -1,7 +1,7 @@
 
 package MovingObjects;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Screens.PlayScreen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

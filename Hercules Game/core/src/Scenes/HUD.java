@@ -1,17 +1,14 @@
 
 package Scenes;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 
-import Intro.StartMenu;
 import MovingObjects.Hercules;
-import Screens.Level1;
 import Screens.PlayScreen;
 import Sprites.ProtectingShield;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -28,8 +25,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import java.util.logging.Level;
 
 public class HUD implements Disposable{
     public static PlayScreen screen;
@@ -63,11 +58,9 @@ public class HUD implements Disposable{
     private BitmapFont FONT, FONT2;
     private Label.LabelStyle font, font2;
     /***************************/
-    //pause button
-    public ImageButton pauseBtn;
 
     public HUD (PlayScreen Screen){
-        this.screen =Screen;
+        this.screen = Screen;
         this.herucle=screen.getPlayer();
         this.FireDecrease=setToRestart=false;
         this.DecreasePeriod=true;
@@ -119,19 +112,6 @@ public class HUD implements Disposable{
         table.add().expandX();
         table.add(scoreLabel).expandX().padTop(-50).padLeft(-730);
         table.add(swordtimerlabel).expandX().padTop(-50).padLeft(-470);
-
-
-        pauseBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\pause.png"))));
-        pauseBtn.setPosition( 50,660);
-        pauseBtn.setSize(100f,100f);
-        pauseBtn.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y){
-                //System.out.println("dsddddddddddddddddddddddddddddddddddddddddd\nffffffffffffffffff\nfsssssssssss");
-            }
-        });
-
-        Gdx.input.setInputProcessor(stage);
-        stage.addActor(pauseBtn);
 
         stage.addActor(table);
     }

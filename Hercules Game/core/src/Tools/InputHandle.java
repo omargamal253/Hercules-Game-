@@ -1,6 +1,7 @@
 package Tools;
 
-import com.Hercules.game.Main;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,18 +12,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import Intro.StartMenu;
 import Screens.PlayScreen;
 
 public class InputHandle {
+
+    public PlayScreen screen;
     public Stage buttonStage;
-    public ImageButton rightButton;
-    public ImageButton leftButton;
-    public ImageButton upButton;
-    public ImageButton downButton;
-    public ImageButton push1Button;
-    public ImageButton push2Button;
-    public ImageButton sword1Button;
-    public ImageButton sword2Button;
+    private ImageButton rightButton;
+    private ImageButton leftButton;
+    private ImageButton upButton;
+    private ImageButton downButton;
+    private ImageButton push1Button;
+    private ImageButton push2Button;
+    private ImageButton sword1Button;
+    private ImageButton sword2Button;
+    private ImageButton pauseBtn;
+
+    private boolean swords;
+    public boolean powerPunch, normalPunch;
     public  boolean Hright ; public static float HRightX ,HRightY;
     public boolean Hleft ;  public static float HLeftX ,HLeftY;
     public boolean Hup ;  public static float HUpX ,HUpY;
@@ -31,19 +39,11 @@ public class InputHandle {
     public boolean Hpush2 ; public static float HPush2X ,HPush2Y;
     public boolean Hsword1 ; public static float HSword1X ,HSword1Y;
     public boolean Hsword2 ; public static float HSword2X ,HSword2Y;
-
     public static int mode;
-
-
-    private boolean swords;
-
-    public InputHandle(){
-        buttonStage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT)); //bitktp mara wa7da lakn law atchal mch haitrsmo
-        swords = false;
-    }
     
     public InputHandle(PlayScreen screen){
-        buttonStage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT)); //bitktp mara wa7da lakn law atchal mch haitrsmo
+        this.screen = screen;
+        buttonStage = new Stage(new StretchViewport(Main.WIDTH, Main.HEIGHT));
         swords = false;
         if (!screen.noSwords){
             createSword1DirectionButtons(); Hsword1 = false;
@@ -57,8 +57,46 @@ public class InputHandle {
         createDownDirectionButtons();  Hdown = false ;
         createPush1DirectionButtons(); Hpush1 =false ;
         createPush2DirectionButtons(); Hpush2 =false ;
-        createSword1DirectionButtons(); Hsword1 =false ;
-        createSword2DirectionButtons(); Hsword2 =false ;
+        createPauseButton();
+
+        Gdx.input.setInputProcessor(buttonStage);
+    }
+
+    public void resetSettings(){
+        buttonStage.clear();
+        swords = false;
+        screen.paused = false;
+        screen.pauseWindow.setVisible(true);
+        if (!screen.noSwords){
+            createSword1DirectionButtons(); Hsword1 = false;
+            createSword2DirectionButtons(); Hsword2 = false;
+            swords = true;
+        }
+
+        createRightDirectionButtons();  Hright = false ;
+        createLeftDirectionButtons();  Hleft = false ;
+        createUpDirectionButtons();  Hup = false ;
+        createDownDirectionButtons();  Hdown = false ;
+        createPush1DirectionButtons(); Hpush1 =false ;
+        createPush2DirectionButtons(); Hpush2 =false ;
+        createPauseButton();
+        buttonStage.addActor(screen.pauseWindow);
+
+        Gdx.input.setInputProcessor(buttonStage);
+    }
+
+    private void createPauseButton() {
+        pauseBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\pause.png"))));
+        pauseBtn.setPosition( 50, 660); // 50 660
+        pauseBtn.setSize(100f,100f);
+        pauseBtn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                screen.pauseWindow.setVisible(true);
+                screen.paused = true;
+            }
+        });
+
+        buttonStage.addActor(pauseBtn);
     }
 
 
@@ -80,9 +118,6 @@ public class InputHandle {
 
         buttonStage.addActor(rightButton);
 
-        Gdx.input.setInputProcessor(buttonStage);
-
-
         rightButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Hright = true;
@@ -97,7 +132,6 @@ public class InputHandle {
 
 
     }
-
 
     public void createLeftDirectionButtons(){
 
@@ -115,9 +149,6 @@ public class InputHandle {
 
 
         buttonStage.addActor(leftButton);
-        // kul button htzwdlo el satr da
-
-        //  Gdx.input.setInputProcessor(buttonStage);
 
         leftButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -144,7 +175,6 @@ public class InputHandle {
 
     }
 
-
     public void createUpDirectionButtons(){
 
 
@@ -162,10 +192,7 @@ public class InputHandle {
         else        upButton.setPosition(Main.WIDTH/1.18f , Main.HEIGHT/2.857f);
 
 
-        buttonStage.addActor(upButton); // kul button htzwdlo el satr da
-
-        //  Gdx.input.setInputProcessor(buttonStage);
-
+        buttonStage.addActor(upButton);
 
         upButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -182,8 +209,6 @@ public class InputHandle {
 
 
     }
-
-
 
     public void createDownDirectionButtons(){
 
@@ -202,10 +227,7 @@ public class InputHandle {
         else        downButton.setPosition(Main.WIDTH/1.18f , Main.HEIGHT/13.3f);
 
 
-        buttonStage.addActor(downButton); // kul button htzwdlo el satr da
-
-        //  Gdx.input.setInputProcessor(buttonStage);
-
+        buttonStage.addActor(downButton);
 
         downButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -225,43 +247,33 @@ public class InputHandle {
 
     public void createPush1DirectionButtons(){
 
-
         push1Button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\push1.png"))) ,
                 new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\push1clicked.png")))); // Mawgoden le awl mara bs w mmkn mtkpch el stor dol w tst8dm el satr ly t7t law 3ayz t2ll code
-
 
 
         //push1Button.setPosition(Gdx.graphics.getWidth()/1.4f +5, 400);
 
         HPush1X = Main.WIDTH/1.15f  ; HPush1Y = Main.HEIGHT/1.8f;
         push1Button.setPosition(Main.WIDTH/1.15f , Main.HEIGHT/1.8f);
-
         if(mode==1)        push1Button.setPosition(Main.WIDTH/1.15f , Main.HEIGHT/1.8f);
         else if(mode==2)  push1Button.setPosition(Main.WIDTH/3f + 600f , Main.HEIGHT/25f);
         else           push1Button.setPosition(Main.WIDTH/1.15f , Main.HEIGHT/1.8f);
 
-
         buttonStage.addActor(push1Button);
-
-        //    Gdx.input.setInputProcessor(buttonStage);
-
 
         push1Button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
+                powerPunch = false;
                 Hpush1 = true;
                 return true;
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                powerPunch = true;
                 Hpush1 = false;
             }
         });
-
-
     }
-
 
     public void createPush2DirectionButtons(){
 
@@ -280,25 +292,20 @@ public class InputHandle {
 
         buttonStage.addActor(push2Button);
 
-        // Gdx.input.setInputProcessor(buttonStage);
-
-
         push2Button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
+                normalPunch = false;
                 Hpush2 = true;
                 return true;
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                normalPunch = true;
                 Hpush2 = false;
             }
         });
 
-
     }
-
 
     public void createSword1DirectionButtons(){
 
@@ -316,9 +323,6 @@ public class InputHandle {
 
         buttonStage.addActor(sword1Button);
 
-        //  Gdx.input.setInputProcessor(buttonStage);
-
-
         sword1Button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
@@ -335,7 +339,6 @@ public class InputHandle {
 
     }
 
-
     public void createSword2DirectionButtons(){
 
 
@@ -351,9 +354,6 @@ public class InputHandle {
         else         sword2Button.setPosition(Main.WIDTH/20f , Main.HEIGHT/1.95f);
 
         buttonStage.addActor(sword2Button);
-
-        //   Gdx.input.setInputProcessor(buttonStage);
-
 
         sword2Button.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

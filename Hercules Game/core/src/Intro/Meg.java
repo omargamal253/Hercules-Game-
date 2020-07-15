@@ -1,6 +1,5 @@
 package Intro;
 
-import Intro.LevelPassword;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Gdx;;
 import com.badlogic.gdx.graphics.g2d.Animation;

@@ -1,7 +1,7 @@
 package MovingObjects;
 
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import HealthAttacker.VultureEgg;
 import Pooling.EggPool;
 import Scenes.HUD2;

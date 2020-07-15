@@ -1,7 +1,7 @@
 
 package StaticGraphics;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Intro.ScoreBoard;
 import Scenes.HUD;
 import Scenes.Transition;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 
 public class ReachPoint extends Sprite{
 

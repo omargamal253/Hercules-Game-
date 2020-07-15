@@ -1,15 +1,14 @@
 
 package Sprites;
 
-
-import com.Hercules.game.Main;
-import MovingObjects.Hercules;
-import Sprites.Swords;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+
+import MovingObjects.Hercules;
 
 public class StaticFireBallSword extends Swords{
     int counter,soundcounter;

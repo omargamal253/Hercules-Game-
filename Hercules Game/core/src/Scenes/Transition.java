@@ -1,11 +1,10 @@
 package Scenes;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Intro.StartMenu;
 import Screens.Level2;
 import Screens.PlayScreen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,7 +33,7 @@ public class Transition implements Screen {
     private static int totalScore;
 
     public  Transition(PlayScreen screen, int score){
-        sprite = new Sprite(new Texture("Intros//Transition1.jpeg"));
+        sprite = new Sprite(new Texture("Intros\\Transition1.jpg"));
         this.screen = screen;
         this.game = screen.game;
         this.score = score;
@@ -44,7 +43,7 @@ public class Transition implements Screen {
     }
 
     public  Transition(PlayScreen screen, int score, int timer){
-        sprite = new Sprite(new Texture("Intros//Transition2.jpeg"));
+        sprite = new Sprite(new Texture("Intros\\Transition2.jpg"));
         this.screen = screen;
         this.game = screen.game;
         this.score = score;

@@ -1,11 +1,9 @@
 package com.mygdx.game;
 
+import com.main.Main;
 import android.os.Bundle;
-
-import com.Hercules.game.Main;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

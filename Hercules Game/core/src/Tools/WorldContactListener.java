@@ -1,7 +1,7 @@
 
 package Tools;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import HealthAttacker.Enemy;
 import MovingObjects.Hercules;
 import MovingObjects.Wagon;

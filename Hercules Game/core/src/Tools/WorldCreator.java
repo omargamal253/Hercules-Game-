@@ -1,6 +1,6 @@
 package Tools;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Screens.PlayScreen;
 import HealthAttacker.*;
 import MovingObjects.*;
@@ -21,8 +21,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
-
 
 public class WorldCreator {
     private PlayScreen screen;

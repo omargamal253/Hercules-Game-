@@ -1,7 +1,9 @@
 package Intro;
 
 import Screens.Level1;
-import com.Hercules.game.Main;
+import Screens.Level2;
+
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -47,9 +49,7 @@ public class LevelPassword implements Screen {
     public Sprite sprite1, sprite2, sprite3, sprite4;
     boolean p1 =true , p2=true , p3=true , p4=true ;
     public boolean up=false,down=false,success=false;
-    public ImageButton right;
-    public ImageButton left;
-    public ImageButton enter;
+    public ImageButton rightBtn, leftBtn, upBtn, downBtn, enterBtn;
 
     Music wrongpassword , pass , morewrongpass , time,start,vaseup,vasedown ;
     int counter=0 , prevcounter = 0,tmpCounter=0,wrongCounter=0;
@@ -90,6 +90,11 @@ public class LevelPassword implements Screen {
         stand4 = new Texture("Intros\\Level Password\\pass pic//6.png");
         sprite4 = new Sprite(stand4);
         //---------------------------
+            createAndroidButtons();
+        //---------------------------
+    }
+
+    private void createAndroidButtons(){
         stage = new Stage(gameport, ((Main) game).batch);
         back = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Intros\\Back.png"))));
         back.setPosition(50f, game.HEIGHT*1.8f);
@@ -104,41 +109,62 @@ public class LevelPassword implements Screen {
 
         stage.addActor(back);
 
-        left = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\leftMeg.png"))));
-        left.setPosition( 500,1200);
-        left.setSize(150f,200f);
-        left.addListener(new ClickListener() {
+        leftBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\leftMeg.png"))));
+        leftBtn.setPosition( 570,1210);
+        leftBtn.setSize(150f,200f);
+        leftBtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
-
+                meg.body.setLinearVelocity(-100, 0);
+                prevcounter = counter;
             }
         });
 
-        stage.addActor(left);
+        stage.addActor(leftBtn);
 
-        enter = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\enterMeg.png"))));
-        enter.setPosition( 730,1195);
-        enter.setSize(200f,250f);
-        enter.addListener(new ClickListener() {
+        rightBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\rightMeg.png"))));
+        rightBtn.setPosition( 940,1210);
+        rightBtn.setSize(150f,200f);
+        rightBtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
-
+                meg.body.setLinearVelocity(100, 0);
             }
         });
 
-        stage.addActor(enter);
+        stage.addActor(rightBtn);
 
-        right = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\rightMeg.png"))));
-        right.setPosition( 1000,1200);
-        right.setSize(150f,200f);
-        right.addListener(new ClickListener() {
+        upBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\upMeg.png"))));
+        upBtn.setPosition( 755,1410);
+        upBtn.setSize(150f,200);
+        upBtn.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
-
+                upIsPressed();
             }
         });
 
-        stage.addActor(right);
+        stage.addActor(upBtn);
 
+        downBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\downMeg.png"))));
+        downBtn.setPosition( 755,1030);
+        downBtn.setSize(150f,200f);
+        downBtn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                downIsPressed();
+            }
+        });
+
+        stage.addActor(downBtn);
+
+        enterBtn = new ImageButton (new TextureRegionDrawable(new TextureRegion(new Texture("Sprites\\Level 1\\Buttons\\enterMeg.png"))));
+        enterBtn.setPosition( 730,1200);
+        enterBtn.setSize(200f,250f);
+        enterBtn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                enterIsPressed();
+            }
+        });
+
+        stage.addActor(enterBtn);
         Gdx.input.setInputProcessor(stage);
-        //---------------------------
     }
 
     public TextureAtlas getAtlas() {
@@ -175,81 +201,67 @@ public class LevelPassword implements Screen {
     }
 
     private LevelPassword getThisClass(){return this;}
-    public void handleInput(float dt) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            meg.body.setLinearVelocity(100, 0);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            meg.body.setLinearVelocity(-100, 0);
-            prevcounter = counter;
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
-        {
-            meg.v = true;
-            meg.Edit = true;
-            meg.definePos();
-            if (meg.st1 == true)vases.Counterv1++;
-            else if (meg.st2 == true)vases.Counterv2++;
-            else if (meg.st3 == true)vases.Counterv3++;
-            else if (meg.st4 == true)vases.Counterv4++;
-            tmpCounter++;
-            vaseup.play();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
-        {
-            meg.    v = true;
-            meg.Edit = true;
-            meg.definePos();
-            if (meg.st1 == true)vases.Counterv1--;
-            if (meg.st2 == true)vases.Counterv2--;
-            if (meg.st3 == true)vases.Counterv3--;
-            if (meg.st4 == true)vases.Counterv4--;
-            tmpCounter++;
 
-            vasedown.play();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-            if (vases.Counterv1 == 3 && vases.Counterv2 ==2 && vases.Counterv3 == 0 && vases.Counterv4==3 ) {
-                success = true;
+    private void upIsPressed(){
+        meg.v = true;
+        meg.Edit = true;
+        meg.definePos();
+        if (meg.st1 == true)vases.Counterv1++;
+        else if (meg.st2 == true)vases.Counterv2++;
+        else if (meg.st3 == true)vases.Counterv3++;
+        else if (meg.st4 == true)vases.Counterv4++;
+        tmpCounter++;
+        vaseup.play();
+    }
+    private void downIsPressed(){
+        meg.v = true;
+        meg.Edit = true;
+        meg.definePos();
+        if (meg.st1 == true)vases.Counterv1--;
+        if (meg.st2 == true)vases.Counterv2--;
+        if (meg.st3 == true)vases.Counterv3--;
+        if (meg.st4 == true)vases.Counterv4--;
+        tmpCounter++;
 
-                pass.play();
-            }
-            else{
-                wrongCounter++;
-                if (wrongCounter< 3) {
+        vasedown.play();
+    }
+    private void enterIsPressed() {
+        if (vases.Counterv1 == 2 && vases.Counterv2 == 3 && vases.Counterv3 == 0 && vases.Counterv4 == 2) {
+            success = true;
+            pass.play();
+        } else {
+            wrongCounter++;
+            if (wrongCounter < 3) {
+                wrongpassword.play();
 
-                    wrongpassword.play();
-                }
-                else if (wrongCounter<6)
-                {
-                    wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//More Wrong Password.wav",Music.class);
-
-                    wrongpassword.setLooping(false);
-                    wrongpassword.setVolume(Main.vol);
-                    wrongpassword.play();
-                }
-                else {
-                    wrongCounter=0;
-                    wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//Dont waste my time.wav",Music.class);
-                    wrongpassword.setLooping(false);
-                    wrongpassword.setVolume(Main.vol);
-                    wrongpassword.play();
-                }
+            } else if (wrongCounter < 5) {
+                wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//More Wrong Password.wav", Music.class);
+                wrongpassword.setLooping(false);
+                wrongpassword.setVolume(Main.vol);
+                wrongpassword.play();
+            } else {
+                wrongCounter = 0;
+                wrongpassword = game.manager.get("Audio//Hercules - Voices//Meg//Dont waste my time.wav", Music.class);
+                wrongpassword.setLooping(false);
+                wrongpassword.setVolume(Main.vol);
+                wrongpassword.play();
             }
         }
+        System.out.println("VASE 1: " + vases.Counterv1);
+        System.out.println("VASE 2: " + vases.Counterv2);
+        System.out.println("VASE 3: " + vases.Counterv3);
+        System.out.println("VASE 4: " + vases.Counterv4);
     }
 
     public void update(float dt) {
         if (tmpCounter == 10) {
             tmpCounter = 0;
-
             time.play();
         }
         if (!sprite4.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p4=true;
         if ( !sprite3.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p3=true;
         if( !sprite2.getBoundingRectangle().overlaps(meg.getBoundingRectangle()))p2=true;
         if( !sprite1.getBoundingRectangle().overlaps(meg.getBoundingRectangle()) ) {p1 =true;}
-        handleInput(dt);
         world.step(1 / 60f, 6, 2);
         gamecam.update();
         renderer.setView(gamecam);
@@ -264,7 +276,6 @@ public class LevelPassword implements Screen {
 
             meg.body.setLinearVelocity(0, 0);
             p1 = false;
-
 
         }
         else  if (new Rectangle( 190-140 , 40, 1, sprite1.getHeight()).overlaps(new Rectangle(meg.body.getPosition().x , meg.body.getPosition().y , 1,200))){
@@ -334,14 +345,10 @@ public class LevelPassword implements Screen {
         game.batch.end();
 
         if (!pass.isPlaying()  && success){
-            game.setScreen(new Level1(game));
+            game.setScreen(new Level2(game));
             this.dispose();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new StartMenu(game));
-            dispose();
-        }
         stage.act();
         stage.draw();
     }

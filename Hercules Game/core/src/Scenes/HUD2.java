@@ -1,6 +1,7 @@
 package Scenes;
 
-import com.Hercules.game.Main;
+import com.main.Main;
+
 import MovingObjects.Hercules;
 import Screens.PlayScreen;
 import com.badlogic.gdx.Gdx;
@@ -30,7 +31,7 @@ public class HUD2 implements Disposable{
     private Label Timer, TimerLabel, DR, DrLabel, scoreText, scoreLabel, trials, trialsNo;
     private Label.LabelStyle font;
     private BitmapFont FONT;
-    public static int NumberOfTrials = 2, maxTime=200;
+    public static int NumberOfTrials = 2, maxTime=300;
     public int i;
     public float statetimer, DrCounter, timeSpent;
     public static int timer;

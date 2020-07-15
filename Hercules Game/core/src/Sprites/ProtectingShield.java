@@ -1,8 +1,8 @@
 package Sprites;
 
-import com.Hercules.game.Main;
-import Scenes.HUD;
+import com.main.Main;
 import MovingObjects.Hercules;
+import Scenes.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;

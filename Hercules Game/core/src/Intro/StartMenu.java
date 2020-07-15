@@ -1,6 +1,6 @@
 package Intro;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -26,10 +26,10 @@ public class StartMenu implements Screen {
     private Texture background;
     private Music music;
     private Viewport viewport;
-    
+
     public StartMenu(Main game) {
         music = game.manager.get("Audio//Hercules - sounds//MainMenu.mp3", Music.class);
-        music.setVolume(Main.vol);        
+        music.setVolume(Main.vol);
         music.play();
         this.game = game;
         background = new Texture(Gdx.files.internal("Intros\\0.jpg"));
@@ -39,7 +39,7 @@ public class StartMenu implements Screen {
 
         createBasicSkin();
         createActions();
-        
+
     }
 
     private void createBasicSkin() {
@@ -141,7 +141,7 @@ public class StartMenu implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Main.batch.begin();
-            game.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
+        game.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
         Main.batch.end();
         stage.act();
         stage.draw();

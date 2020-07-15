@@ -1,9 +1,8 @@
 package Sprites;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import MovingObjects.Hercules;
 import Screens.PlayScreen;
-import Tools.InputHandle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -57,7 +56,7 @@ public class Wall extends Sprite {
 
     public void HercuelesHit(float dt) {
 
-        if (hercule.getBoundingRectangle().overlaps(wall[i].getBoundingRectangle()) && Gdx.input.isKeyJustPressed(Main.normalPunch) && i < 4 && hercule.body.getPosition().x > (x+100f) / Main.PPM) {
+        if (hercule.getBoundingRectangle().overlaps(wall[i].getBoundingRectangle()) && screen.inputhandle.normalPunch && i < 4 && hercule.body.getPosition().x > (x+100f) / Main.PPM) {
             i++;
             hitted=true;
             crushess.setBounds(0, 0, 500 / Main.PPM, 500 / Main.PPM);

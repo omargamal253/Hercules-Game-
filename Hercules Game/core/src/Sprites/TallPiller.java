@@ -1,11 +1,7 @@
 package Sprites;
 
-import com.Hercules.game.Main;
-
-import MovingObjects.Hercules;
+import com.main.Main;
 import Screens.PlayScreen;
-import Tools.InputHandle;
-
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -43,17 +39,17 @@ public class TallPiller extends Sprite {
         powerPunchTimer += dt;
 
         if(getBoundingRectangle().overlaps(screen.getPlayer().getBoundingRectangle())
-                && Gdx.input.isKeyJustPressed(screen.game.normalPunch)&&i<5){
+                && screen.inputhandle.normalPunch && i<5){
             setRegion(78*(i++), 0, 78, 247);
             pillarSound.play();
             pillarSound.setVolume(Main.vol);
         }
 
-
         if(getBoundingRectangle().overlaps(screen.getPlayer().getBoundingRectangle())
-                && Gdx.input.isKeyJustPressed(screen.game.powerPunch)&&!inPower){
+                && screen.inputhandle.powerPunch &&!inPower){
             inPower=true;
         }
+
         if(inPower && powerPunchTimer>.2f&&!screen.getPlayer().pushing_hand()&&i<5){
             setRegion(78*(i++), 0, 78, 247);
             powerPunchTimer=0f;

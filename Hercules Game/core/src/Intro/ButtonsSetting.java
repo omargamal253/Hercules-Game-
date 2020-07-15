@@ -1,8 +1,8 @@
 package Intro;
 
-import com.Hercules.game.Main;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +20,6 @@ import Tools.InputHandle;
 public class ButtonsSetting implements Screen {
     Main game ;
     Sprite BackGround, correct;
-    InputHandle inputHandle;
     public Stage buttonStage;
     public ImageButton Mode1Button , Mode2Button , SaveButton, BackButton;
 
@@ -33,25 +32,22 @@ public class ButtonsSetting implements Screen {
         correct = new Sprite(new Texture("Intros\\green_Ic2.png"), 0, 0, 60, 60);
         correct.setSize(100,100);
         if(InputHandle.mode==1)
-            correct.setPosition(680, 110f);
+            correct.setPosition(680, 300f);
         else if(InputHandle.mode==2)   ;
 
-        else  correct.setPosition(680, 110f);
+        else  correct.setPosition(680, 300f);
 
-        inputHandle = new InputHandle();
         createMode1Button();
         createMode2Button();
-        createSaveButton();
-        createBackButton();
+        createDoneButton();
 
     }
-
 
     public void createMode1Button(){
         Mode1Button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Intros\\mode1.png"))));
 
         //  Mode1Button.setPosition(320f , 200f);
-        Mode1Button.setPosition(Main.WIDTH/5.3f, 200f);
+        Mode1Button.setPosition(Main.WIDTH/5.3f, 400f);
 
         buttonStage.addActor(Mode1Button);
         Gdx.input.setInputProcessor(buttonStage);
@@ -61,7 +57,7 @@ public class ButtonsSetting implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 InputHandle.mode=1;
-                correct.setPosition(Mode1Button.getX() + (Mode1Button.getWidth()/2), 110f);
+                correct.setPosition(Mode1Button.getX() + (Mode1Button.getWidth()/2), 300f);
 
                 return true;
             }
@@ -72,13 +68,11 @@ public class ButtonsSetting implements Screen {
         });
     }
 
-
     public void createMode2Button(){
 
         Mode2Button = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Intros\\mode2.jpg"))));
 
-        // Mode2Button.setPosition(1100f , 200f);
-        Mode2Button.setPosition(Main.WIDTH/1.8f, 200f);
+        Mode2Button.setPosition(Main.WIDTH/1.8f, 400f);
 
         buttonStage.addActor(Mode2Button);
 
@@ -88,8 +82,7 @@ public class ButtonsSetting implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 InputHandle.mode=2;
-                //    correct.setPosition(1610, 110f);
-                correct.setPosition(Mode2Button.getX()+(Mode2Button.getWidth()/2), 110f);
+                correct.setPosition(Mode2Button.getX()+(Mode2Button.getWidth()/2), 300f);
                 return true;
             }
 
@@ -100,56 +93,27 @@ public class ButtonsSetting implements Screen {
 
     }
 
-    public void createSaveButton(){
+    public void createDoneButton(){
         SaveButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Intros\\savebtn.png"))));
         SaveButton.setSize(SaveButton.getWidth(),SaveButton.getHeight());
 
-        SaveButton.setPosition(1080f , 650f);
+        SaveButton.setPosition(900f , 150f);
 
         buttonStage.addActor(SaveButton);
-
         Gdx.input.setInputProcessor(buttonStage);
 
-        SaveButton.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                return true;
-            }
-
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-            }
-        });
-
-    }
-
-
-    public void createBackButton(){
-        BackButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("Intros\\backbtn.png"))));
-        BackButton.setSize(SaveButton.getWidth()+20,SaveButton.getHeight()+20);
-        BackButton.setPosition(750f , 640f);
-
-        buttonStage.addActor(BackButton);
-
-        Gdx.input.setInputProcessor(buttonStage);
-
-        BackButton.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        SaveButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new StartMenu(game));
-                return true;
-            }
-
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
+                dispose();
             }
         });
-    }
 
+    }
 
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     @Override
     public void render(float delta) {
@@ -159,11 +123,9 @@ public class ButtonsSetting implements Screen {
         game.batch.begin();
         BackGround.draw(game.batch);
         correct.draw(game.batch);
-        //  BackGround.draw(game.batch);
 
         game.batch.end();
         buttonStage.draw();
-        // inputHandle.buttonStage.draw();
     }
 
     @Override
@@ -188,6 +150,6 @@ public class ButtonsSetting implements Screen {
 
     @Override
     public void dispose() {
-
+        buttonStage.dispose();
     }
 }

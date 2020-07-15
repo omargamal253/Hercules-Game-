@@ -1,28 +1,17 @@
 package Scenes;
 
 
-import com.Hercules.game.Main;
+import com.main.Main;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-import Intro.StartMenu;
 
 public class Credit implements Screen {
+
     private Sprite sprite[];
     private Sprite theEnd;
     private float alpha, stateTimer, exitTimer;
@@ -47,9 +36,7 @@ public class Credit implements Screen {
         finale.play();
         finale.setLooping(true);
         finale.setVolume(Main.vol);
-
     }
-
 
 
     @Override
@@ -103,28 +90,21 @@ public class Credit implements Screen {
     }
 
     @Override
-    public void show() {
-    }
+    public void show() { }
 
     @Override
-    public void resize(int width, int height) {
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-    }
+    public void hide() { }
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
 }

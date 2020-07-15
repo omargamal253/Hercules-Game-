@@ -1,9 +1,11 @@
 
 package Screens;
 
+import com.main.Main;
 import Intro.StartMenu;
+import MovingObjects.Hercules;
+import MovingObjects.SecondaryCharacter;
 import StaticGraphics.*;
-import MovingObjects.*;
 import Sprites.*;
 import Scenes.*;
 import HealthAttacker.*;
@@ -11,9 +13,7 @@ import Tools.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -22,17 +22,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.Hercules.game.Main;
-import java.util.ArrayList;
 
 public abstract class PlayScreen implements Screen{
 
@@ -84,7 +80,7 @@ public abstract class PlayScreen implements Screen{
     //Helping Variables and Objects
     protected ProtectingShield Shield;
     protected Herculad juice;
-    InputHandle inputhandle ;
+    public InputHandle inputhandle ;
 
     public PlayScreen(Main game, float HercPosX, String mapPath) {
 
@@ -141,15 +137,19 @@ public abstract class PlayScreen implements Screen{
         Game.setVolume(Main.vol);
     }
 
-
     protected void createPauseMenu(Stage stage, Skin skin){
         pauseWindow = new Window("PAUSE", skin);
         /****************************************************/
         // Pause Menu TextButtons
         TextButton continueBtn = new TextButton("Continue", skin);
         final TextButton soundBtn = new TextButton("Mute Sounds", skin);
+        TextButton mode1 = new TextButton("Mode 1 Buttons", skin);
+        TextButton mode2 = new TextButton("Mode 2 Buttons", skin);
         TextButton exitBtn = new TextButton("Exit", skin);
+        mode1.getLabel().setFontScale(0.5f, 1f);
+        mode2.getLabel().setFontScale(0.5f, 1f);
         soundBtn.getLabel().setFontScale(0.65f, 1f);
+
         continueBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -173,6 +173,20 @@ public abstract class PlayScreen implements Screen{
                 }
             }
         });
+        mode1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                InputHandle.mode=1;
+                inputhandle.resetSettings();
+            }
+        });
+        mode2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                InputHandle.mode=2;
+                inputhandle.resetSettings();
+            }
+        });
         exitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -186,9 +200,13 @@ public abstract class PlayScreen implements Screen{
 
         pauseWindow.padTop(200);
         pauseWindow.getTitleLabel().setAlignment(Align.center); pauseWindow.getTitleLabel().setFontScale(0.6f);
+
         pauseWindow.add(continueBtn).padTop(-100f).size(300, 70).row();
-        pauseWindow.add(soundBtn).padTop(20f).size(300, 70).row();
-        pauseWindow.add(exitBtn).padTop(20).size(300, 70);
+        pauseWindow.add(soundBtn).padTop(-5f).size(300, 70).row();
+        pauseWindow.add(mode1).padTop(10f).size(300, 70).row();
+        pauseWindow.add(mode2).padTop(10f).size(300, 70).row();
+        pauseWindow.add(exitBtn).padTop(10).size(300, 70);
+
         pauseWindow.setSize(stage.getWidth() / 1.5f, stage.getHeight() / 1.2f);
         pauseWindow.setPosition(stage.getWidth() / 2 - pauseWindow.getWidth() /2, stage.getHeight() / 2 - pauseWindow.getHeight() /2);
         pauseWindow.setMovable(false);
@@ -216,8 +234,6 @@ public abstract class PlayScreen implements Screen{
 
     public TiledMap getMap() {return map;}
     /*End Objects GETTERS*/
-
-
 
 
     /*Start Some Helping Methods*/
@@ -282,17 +298,14 @@ public abstract class PlayScreen implements Screen{
         }
     }
 
-
     protected void updateCoins() {
         for(Coin coin : creator.getCoins())
             coin.update(player);
     }
-
     protected void renderCoins() {
         for(Coin coin : creator.getCoins())
             coin.draw(game.batch);
     }
-
 
     protected void updateFeathers(float dt) {
 
@@ -327,7 +340,6 @@ public abstract class PlayScreen implements Screen{
         }
 
     }
-
     protected void renderCharacters() {
         creator.getPhill().draw(game.batch);
         for (SecondaryCharacter bird : creator.getBirds()) {
@@ -369,7 +381,6 @@ public abstract class PlayScreen implements Screen{
         sonicsword.upsonic.draw(game.batch);
     }
 
-
     protected void updateFireBalls() {
         for(Fireball fireball : creator.getFireballs())
             fireball.update();
@@ -378,7 +389,6 @@ public abstract class PlayScreen implements Screen{
         for(Fireball fireball : creator.getFireballs())
             fireball.draw(game.batch);
     }
-
 
     protected void  HerculesActionSound (String MusicPath){
         m = Main.manager.get(MusicPath,Music.class);
@@ -411,31 +421,23 @@ public abstract class PlayScreen implements Screen{
     /*End Some Helping Methods*/
 
     @Override
-    public void show() {
-    }
+    public void show() { }
 
     @Override
-    public void render(float dt) {
-    }
-
+    public void render(float dt) { }
 
     @Override
-    public void resize(int width, int height) {
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-    }
+    public void hide() { }
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() { }
 }

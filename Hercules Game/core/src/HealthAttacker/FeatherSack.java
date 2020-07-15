@@ -1,10 +1,10 @@
 
 package HealthAttacker;
 
-import Screens.PlayScreen;
 import MovingObjects.Hercules;
+import Screens.PlayScreen;
 import Scenes.HUD;
-import com.Hercules.game.Main;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;

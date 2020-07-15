@@ -1,13 +1,12 @@
 
 package HealthAttacker;
 
-import Screens.PlayScreen;
-import HealthAttacker.FeatherSack;
 import MovingObjects.Hercules;
+import Screens.PlayScreen;
 import Scenes.HUD;
 import Sprites.SilverCoin;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 

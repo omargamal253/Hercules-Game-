@@ -1,9 +1,8 @@
 package MovingObjects;
 
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Intro.ScoreBoard;
-import MovingObjects.Hercules;
 import Scenes.HUD;
 import Scenes.HUD2;
 import Screens.PlayScreen;
@@ -107,7 +106,9 @@ public class Camel extends Sprite{
                 if(CamelPosx >= PosX+1000){ // TRAVELING TO LEVEL 3
                     screen.Game.stop();
                     player.danger.stop();
-                    ScoreBoard.addNewScore(Main.username, HUD.score + (HUD2.score + HUD2.timer * 2));
+                    try{
+                        ScoreBoard.addNewScore(Main.username, HUD.score + (HUD2.score + HUD2.timer * 2));
+                    }catch(Exception ex){}
                     game.setScreen(new Transition(screen, HUD2.score, HUD2.timer));
                     screen.dispose();
                 }

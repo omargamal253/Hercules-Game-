@@ -1,8 +1,9 @@
 package HealthAttacker;
 
-import Scenes.HUD;
 import MovingObjects.Hercules;
-import com.Hercules.game.Main;
+import Scenes.HUD;
+
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

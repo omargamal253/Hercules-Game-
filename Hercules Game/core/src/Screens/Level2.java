@@ -1,5 +1,6 @@
 package Screens;
 
+import com.main.Main;
 import MovingObjects.*;
 import Scenes.HUD2;
 import Sprites.Border;
@@ -9,10 +10,9 @@ import Sprites.Sandal;
 import Sprites.Wall;
 import StaticGraphics.ArabBoy;
 import Tools.InputHandle;
-
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.Hercules.game.Main;
+
 
 /* LEVEL TWO SCREEN  */
 public class Level2 extends PlayScreen{
@@ -21,12 +21,10 @@ public class Level2 extends PlayScreen{
     private Sandal sandal;
     private Camel camel;
 
-    public Level2(Main game){                                                                                   // Start       // Wagon       // Slider        // End
+    public Level2(Main game){                                                         // Start    // Wagon     // Slider    // End
         super(game, 1300.00f, "Maps\\Level Two\\HerculesMap.tmx"); // 1300.00f // 9400.00f // 42500.00f // 68000
 
-
         hud2 = new HUD2(this);
-        createPauseMenu(hud2.stage, hud2.skin);
         sandal = new Sandal(48000 / Main.PPM, 700 / Main.PPM, player);
         camel=new Camel(this);
         boy = new ArabBoy(this);
@@ -34,7 +32,9 @@ public class Level2 extends PlayScreen{
         adaptSounds();
         Victory.stop();
         Game.play();
+
         inputhandle=new InputHandle(this);
+        createPauseMenu(inputhandle.buttonStage, hud2.skin);
     }
 
     @Override
@@ -82,6 +82,8 @@ public class Level2 extends PlayScreen{
         boy.update(dt);
         camel.update();
         sandal.update();
+        inputhandle.normalPunch=false;
+        inputhandle.powerPunch=false;
         gameCam.update();
         renderer.setView(gameCam);
 
@@ -142,6 +144,7 @@ public class Level2 extends PlayScreen{
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud2.stage.getCamera().combined);
+
         hud2.stage.draw();
         inputhandle.buttonStage.draw();
     }

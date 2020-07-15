@@ -1,18 +1,17 @@
 package Scenes;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Intro.StartMenu;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class IntroScenes implements Screen{
     private Main game;
@@ -28,14 +27,15 @@ public class IntroScenes implements Screen{
         this.game = game;
         alpha = stateTimer = lblAlpha = lblStateTimer = 0;
         cnt = 0;
-        stage = new Stage(new FitViewport(Main.WIDTH,Main.HEIGHT, new OrthographicCamera()), game.batch);
-        skip = new Label("Touch screen To Skip...", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Fonts//HUD2.fnt")),null));
+        stage = new Stage(new StretchViewport(game.WIDTH,game.HEIGHT, new OrthographicCamera()), game.batch);
+        skip = new Label("Touch On Screen To Skip...", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Fonts//HUD2.fnt")),null));
         skip.setPosition(game.WIDTH/2 - skip.getWidth()/2, 100);
         // LOADING ALL INTORS IMAGES
         loadImages();
         /******************/
         stage.addActor(skip);
     }
+
     private void loadImages(){
         texture = new Texture[4];
         texture[0] = new Texture (Gdx.files.internal("Intros\\1.jpg"));
@@ -43,10 +43,10 @@ public class IntroScenes implements Screen{
         texture[2] = new Texture (Gdx.files.internal("Intros\\3.jpg"));
         texture[3] = new Texture (Gdx.files.internal("Intros\\4.jpg"));
         sprite = new Sprite[4];
-        sprite[0] = new Sprite(texture[0], 0, 0, 1000, 562);
-        sprite[1] = new Sprite(texture[1], 0, 0, 1432, 864);
-        sprite[2] = new Sprite(texture[2], 0, 0, 1920, 1080);
-        sprite[3] = new Sprite(texture[3], 0, 0, 728, 546);
+        sprite[0] = new Sprite(texture[0]);
+        sprite[1] = new Sprite(texture[1]);
+        sprite[2] = new Sprite(texture[2]);
+        sprite[3] = new Sprite(texture[3]);
 
         sprite[0].setSize(game.WIDTH, game.HEIGHT);
         sprite[1].setSize(game.WIDTH, game.HEIGHT);

@@ -1,7 +1,7 @@
 
 package StaticGraphics;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import Screens.PlayScreen;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;

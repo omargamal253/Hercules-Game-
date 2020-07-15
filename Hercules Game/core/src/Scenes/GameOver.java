@@ -1,10 +1,8 @@
 package Scenes;
 
-import com.Hercules.game.Main;
-import Intro.StartMenu;
+import com.main.Main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import Intro.StartMenu;
 
 public class GameOver implements Screen{
     private Viewport viewport;
@@ -39,7 +39,7 @@ public class GameOver implements Screen{
         table.setFillParent(true);
 
         Label gameOverLabel = new Label("GAME OVER", font);
-        Label toMainMenuLabel = new Label("Press Any Key To Go To Main Menu", font2);
+        Label toMainMenuLabel = new Label("Touch Anywhere To Go To Main Menu", font2);
 
         table.add(gameOverLabel).expandX().padTop(300f);
         table.row();

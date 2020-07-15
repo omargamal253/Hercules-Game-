@@ -1,7 +1,7 @@
 
 package Intro;
 
-import com.Hercules.game.Main;
+import com.main.Main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
