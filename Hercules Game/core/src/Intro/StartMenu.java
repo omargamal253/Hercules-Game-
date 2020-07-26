@@ -65,7 +65,7 @@ public class StartMenu implements Screen {
 
     private void createActions() {
         TextButton startGame = new TextButton("Start Game", skin);
-        startGame.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8 , Gdx.graphics.getHeight() / 2f+100);
+        startGame.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8 , Gdx.graphics.getHeight() / 2f-10);
         startGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -98,7 +98,7 @@ public class StartMenu implements Screen {
         });
         stage.addActor(levelPassword);
 
-        TextButton scoreBoard = new TextButton("Score Board", skin);
+      /*  TextButton scoreBoard = new TextButton("Score Board", skin);
         scoreBoard.setPosition(levelPassword.getX() , levelPassword.getY()-120);
         scoreBoard.addListener(new ClickListener() {
             @Override
@@ -108,9 +108,9 @@ public class StartMenu implements Screen {
             }
         });
         stage.addActor(scoreBoard);
-
+       */
         TextButton settings = new TextButton("Settings", skin);
-        settings.setPosition(scoreBoard.getX() ,scoreBoard.getY()-120);
+        settings.setPosition(levelPassword.getX() ,levelPassword.getY()-120);
         settings.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -93,8 +93,11 @@ public class Level2 extends PlayScreen{
             paused=true;
             pauseWindow.setVisible(true);
         }
+
         if (gameOver()) {
             Game.stop();
+            GameOver.setVolume(Main.vol);
+            GameOver.play();
             player.danger.stop();
             game.setScreen(new GameOver(game));
             dispose();
@@ -109,6 +112,7 @@ public class Level2 extends PlayScreen{
             paused=false;
             pauseWindow.setVisible(false);
         }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();

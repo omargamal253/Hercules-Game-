@@ -84,6 +84,8 @@ public class Level1 extends PlayScreen {
 
         if (checkGameOver() && hud.lifeCounter==0) {
             Game.stop();
+            GameOver.setVolume(Main.vol);
+            GameOver.play();
             creator.destroyBodies(this);
             game.setScreen(new GameOver(game));
             dispose();

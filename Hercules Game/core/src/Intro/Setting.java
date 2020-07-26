@@ -71,7 +71,7 @@ public class Setting  implements Screen{
     }
     void Buttons() {
         TextButton controlerkeys  = new TextButton("Controller keys",skin);
-        controlerkeys.setPosition(game.WIDTH / 3, game.HEIGHT / 2 + 150);
+        controlerkeys.setPosition(game.WIDTH / 2.5f, game.HEIGHT / 2 + 150);
         controlerkeys.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){

@@ -3,6 +3,7 @@ package Scenes;
 import com.main.Main;
 import Intro.StartMenu;
 import Screens.Level2;
+import Screens.Level3;
 import Screens.PlayScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -31,6 +32,8 @@ public class Transition implements Screen {
     private int score;
     private int timer;
     private static int totalScore;
+    public boolean IsLevel3;
+    private int LevelNum;
 
     public  Transition(PlayScreen screen, int score){
         sprite = new Sprite(new Texture("Intros\\Transition1.jpg"));
@@ -39,6 +42,7 @@ public class Transition implements Screen {
         this.score = score;
         this.timer=-1;
         this.totalScore = score;
+        LevelNum=1;
         construct();
     }
 
@@ -49,6 +53,19 @@ public class Transition implements Screen {
         this.score = score;
         this.timer = timer;
         this.totalScore += (score + timer * 2);
+        Main.TotalScore=this.totalScore;
+        LevelNum=2;
+        construct();
+    }
+
+    public Transition(PlayScreen screen){
+        IsLevel3=true;
+        sprite = new Sprite(new Texture("Intros\\Transition2.jpg"));
+        this.screen = screen;
+        this.game = screen.game;
+        this.score = HUD3.score;
+        this.totalScore = Main.TotalScore+this.score;
+        LevelNum=3;
         construct();
     }
 
@@ -71,25 +88,25 @@ public class Transition implements Screen {
         table.setPosition(game.WIDTH/16 , game.HEIGHT/4 - 20f);
 
         Label rowOneC2=null, rowTwoC2=null;
-        Label rowOneC1 = new Label("LEVEL" + ( (timer!=-1)?" 2 ":" 1 " ) + "SCORE", font2);
-        if(timer!=-1){ rowOneC2 = new Label("SAVED TIME", font2);}
+        Label rowOneC1 = new Label("LEVEL " + String.valueOf(LevelNum) + " SCORE", font2);
+        if(timer!=-1 && !IsLevel3){ rowOneC2 = new Label("SAVED TIME", font2);}
         Label rowOneC3 = new Label("TOTAL SCORE", font);
         Label rowTwoC1 = new Label(String.format("%4d", score), font2);
-        if(timer!=-1){rowTwoC2 = new Label(String.format("%4d", timer), font2);}
+        if(timer!=-1 && !IsLevel3){rowTwoC2 = new Label(String.format("%4d", timer), font2);}
         Label rowTwoC3 = new Label(String.format("%6d", totalScore), font);
         String declaration="";
-        if(timer!=-1)declaration="(Level 1 score + Level 2 score + 2xSaved Time)";
+        if(timer!=-1 && !IsLevel3)declaration="(Level 1 score + Level 2 score + 2xSaved Time)";
         Label rowThreeC3 = new Label(declaration, font3);
         table.add(rowOneC1).expandX().center();
-        if(timer!=-1){table.add(rowOneC2).expandX();}
+        if(timer!=-1 && !IsLevel3){table.add(rowOneC2).expandX();}
         table.add(rowOneC3).expand().padTop(0f).center();
         table.row(); // ROW ONE ^
         table.add(rowTwoC1).expandX().padLeft(-40f).center();
-        if(timer!=-1){table.add(rowTwoC2).expandX().padTop(0f);}
+        if(timer!=-1 && !IsLevel3){table.add(rowTwoC2).expandX().padTop(0f);}
         table.add(rowTwoC3).expand().padLeft(-80f).center();
         table.row(); // ROW TWO ^
         table.add().expandX().padTop(0f).center();
-        if(timer!=-1){table.add().expandX();}
+        if(timer!=-1 && !IsLevel3){table.add().expandX();}
         table.add(rowThreeC3).maxWidth(0).padTop(-20f).center();
         // ROW THREE ^
 
@@ -112,7 +129,8 @@ public class Transition implements Screen {
         nextAndroid.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
                 if(timer==-1) {screen.Victory.stop();game.setScreen(new Level2(game));}
-                else {screen.Victory.stop();game.setScreen(new Credit());}
+                else if(!IsLevel3 ){screen.Victory.stop();game.setScreen(new Level3(game));}
+                else {screen.Victory.stop();game.setScreen(new Credit(screen));}
                 stage.dispose();
             }
         });
@@ -151,7 +169,8 @@ public class Transition implements Screen {
 
         /*if (Gdx.input.justTouched()){
             if(timer==-1) {screen.Victory.stop();game.setScreen(new Level2(game));}
-            else {screen.Victory.stop();game.setScreen(new Credit());}
+                 else if(!IsLevel3 ){screen.Victory.stop();game.setScreen(new Level3(game));}
+                 else {screen.Victory.stop();game.setScreen(new Credit(screen));}
             stage.dispose();
         }*/
     }

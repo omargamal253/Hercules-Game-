@@ -1,8 +1,6 @@
 package com.main;
 
 import Scenes.IntroScenes;
-import Screens.Level1;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -10,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends Game {
 
-    public static int x = 0, y = 0,TestMuteNum=0;
+    public static int x = 0, y = 0,TestMuteNum=0,TotalScore=0;;
     public static float vol = 1.0f; // 0.5f
     public static String MuteBtnName="Mute";
     public static int up =19, down =20, left =21, right =22, sword1 = 52, sword2 = 54, normalPunch =31, powerPunch = 50;
@@ -104,6 +102,12 @@ public class Main extends Game {
         manager.load("Audio//Hercules - sounds//Vulture.mp3", Music.class); // Finished
         manager.load("Audio//Hercules - sounds//Wagon.mp3", Music.class); // Finished
         manager.load("Audio//Hercules - sounds//Wolf.mp3", Music.class); // Finished
+
+        manager.load("Audio//Hercules - Voices//Cyclops//Level3 Sound.mp3", Music.class); // Finished
+        manager.load("Audio//Hercules - Voices//Cyclops//Hercules Where are you.wav", Music.class); // Finished
+        manager.load("Audio//Hercules - Voices//Cyclops//Hahaha.wav", Music.class); // Finished
+        manager.load("Audio//Hercules - Voices//Cyclops//Run run magets.wav", Music.class); // Finished
+        manager.load("Audio//Hercules - Voices//Cyclops//Hercules come out face me.wav", Music.class); // Finished
 
         manager.finishLoading();
     }
